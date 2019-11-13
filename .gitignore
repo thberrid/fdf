@@ -8,3 +8,4 @@ fdf
 */*.o
 *.out
 */*.out
+.DS_Store
