@@ -3,9 +3,7 @@ fdf
 *.dSYM
 *.sw*
 *.a
-*/*.a
+*.dylib
 *.o
-*/*.o
 *.out
-*/*.out
 .DS_Store
