@@ -5,20 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: thberrid <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/11/13 03:18:51 by thberrid          #+#    #+#              #
-#    Updated: 2019/11/13 03:19:44 by thberrid         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: thberrid <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/29 19:26:47 by thberrid          #+#    #+#              #
-#    Updated: 2019/10/06 06:02:08 by thberrid         ###   ########.fr        #
+#    Updated: 2019/11/13 03:25:16 by thberrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,11 +26,11 @@ FLAGS = -Wall -Wextra -Werror
 all : $(NAME)
 
 $(NAME) : $(FILES_O) $(DIR_H)/$(FILES_H) $(LIBFT)
-	gcc -I ./$(DIR_H) -I ./libft/ -L ./libft/ -lft -o $(NAME) $(FILES_O)
+	gcc -I ./$(DIR_H) -I ./libft/includes -L ./libft/ -lft -o $(NAME) $(FILES_O)
  
 $(DIR_O)/%.o : $(DIR_C)/%.c $(DIR_H)/$(FILES_H)
 	@ mkdir -p $(DIR_O)
-	gcc -I ./$(DIR_H) $(FLAGS) -I ./libft/ -c -o $@ $<
+	gcc -I ./$(DIR_H) $(FLAGS) -I ./libft/includes -c -o $@ $<
 
 $(LIBFT) :
 	make -C ./libft/
