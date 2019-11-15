@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 12:57:04 by thberrid          #+#    #+#             */
-/*   Updated: 2019/05/31 20:09:58 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/15 06:28:48 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ char			*ft_strsub(char const *s, unsigned int start, size_t size);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s);
 char			**ft_strsplit(char const *s, char c);
+char			**ft_strsplitspaces(char const *s);
 char			*ft_itoa(int n);
 void			ft_putascii(void *ptr, size_t len);
 void			ft_putchar(char c);

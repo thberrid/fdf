@@ -6,7 +6,7 @@
 #    By: thberrid <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/17 17:15:46 by thberrid          #+#    #+#              #
-#    Updated: 2019/11/13 03:16:23 by thberrid         ###   ########.fr        #
+#    Updated: 2019/11/15 06:27:31 by thberrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,6 +92,7 @@ SRCS = get_next_line.c \
 	   ft_strnstr.c \
 	   ft_strrchr.c \
 	   ft_strsplit.c \
+	   ft_strsplitspaces.c \
 	   ft_strstr.c \
 	   ft_strsub.c \
 	   ft_strtrim.c \

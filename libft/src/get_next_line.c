@@ -10,79 +10,68 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <get_next_line.h>
+#include "libft.h"
 
-static int	push_line(char **line, int *line_len, t_buf *buffer)
+# define BUFF_SIZEGNL 1
+
+char		*ft_fill_line(char *s, char **line)
 {
-	char	*endl_pos;
-	int		rest_len;
+	char	*tmp;
 
-	rest_len = buffer->len;
-	endl_pos = ft_memchr(buffer->arr, '\n', rest_len);
-	if (endl_pos)
-		rest_len = endl_pos - buffer->arr;
-	*line = ft_memrealloc(*line, *line_len, *line_len + rest_len + 1);
-	if (!*line)
-		return (FT_ERROR);
-	ft_memmove(*line + *line_len, buffer->arr, rest_len);
-	*line_len += rest_len;
-	return (1);
-}
-
-static int	pop_buffer(t_buf *buffer)
-{
-	char	*endl_pos;
-	size_t	blank_len;
-
-	endl_pos = ft_memchr(buffer->arr, '\n', buffer->len);
-	if (!endl_pos)
+	tmp = NULL;
+	if ((tmp = ft_strchr(s, '\n')))
 	{
-		ft_bzero(buffer->arr, BUFF_SIZE);
-		buffer->len = 0;
-		return (0);
+		*tmp = 0;
+		if (!(tmp = ft_strdup(tmp)))
+			return (NULL);
+		if (!(*line = ft_strdup(s)))
+		{
+			ft_strdel(&tmp);
+			return (NULL);
+		}
+		ft_strdel(&s);
+		s = tmp;
 	}
-	blank_len = endl_pos - buffer->arr + 1;
-	buffer->len = BUFF_SIZE - blank_len;
-	ft_memmove(buffer->arr, endl_pos + 1, buffer->len);
-	ft_bzero(buffer->arr + buffer->len, blank_len);
-	return (1);
+	else
+	{
+		if (!(*line = ft_strdup(s)))
+			return (NULL);
+		ft_strclr(s);
+	}
+	return (s);
 }
 
-static int	transfer_toline(char **line, int *line_len, t_buf *buffer)
+int			ft_returnfree(char *s, int ret)
 {
-	if (!buffer->len)
-		return (0);
-	if (push_line(line, line_len, buffer) < 0)
-		return (FT_ERROR);
-	if (pop_buffer(buffer))
-		return (1);
-	return (0);
-}
-
-static int	read_fd(const int fd, char **line, int line_len)
-{
-	static t_buf	buffer = { .len = 0 };
-	int				new_line;
-	int				read_bytes;
-
-	new_line = transfer_toline(line, &line_len, &buffer);
-	if (new_line == FT_ERROR)
-		return (FT_ERROR);
-	if (new_line)
-		return (1);
-	read_bytes = read(fd, buffer.arr, BUFF_SIZE);
-	if (read_bytes == FT_ERROR)
-		return (FT_ERROR);
-	if (read_bytes < BUFF_SIZE)
-		return ((read_bytes > 0));
-	return (read_fd(fd, line, line_len));
+	ft_strdel(&s);
+	return (ret);
 }
 
 int			get_next_line(const int fd, char **line)
 {
-	if (fd < 1 || !line)
-		return (FT_ERROR);	
-	ft_strdel(line);
-	return (read_fd(fd, line, 0));
+	static char	*s;
+	char		buf[BUFF_SIZEGNL + 1];
+	char		*tmp;
+	int			ret;
+
+	if (fd < 0 || line == NULL || read(fd, 0, 0) < 0)
+		return (-1);
+	if (s == NULL)
+		if (!(s = ft_strnew(0)))
+			return (-1);
+	while ((ret = read(fd, buf, BUFF_SIZEGNL)))
+	{
+		buf[ret] = '\0';
+		if (!(tmp = ft_strjoin(s, buf)))
+			return (-1);
+		ft_strdel(&s);
+		s = tmp;
+		if (ft_strchr(buf, '\n'))
+			break ;
+	}
+	if (ret <= 0 && !(*s))
+		return (ft_returnfree(s, 0));
+	if (!(s = ft_fill_line(s, line)))
+		return (ft_returnfree(s, -1));
+	return (1);
 }

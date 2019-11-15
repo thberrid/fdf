@@ -6,7 +6,7 @@
 #    By: thberrid <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/29 19:26:47 by thberrid          #+#    #+#              #
-#    Updated: 2019/11/13 05:32:42 by thberrid         ###   ########.fr        #
+#    Updated: 2019/11/15 07:46:24 by thberrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,14 +15,16 @@ NAME	= fdf
 DIR_C 	= srcs
 DIR_O	= obj
 DIR_H	= includes
-NAME_C	= main.c
+NAME_C	= main.c \
+		  map_parse.c \
+		  matrix_addrow.c
 NAME_O	= $(NAME_C:.c=.o)
 FILES_C	= $(addprefix $(DIR_C)/, $(NAME_C))
 FILES_O	= $(addprefix $(DIR_O)/, $(NAME_O))
 FILES_H	= fdf.h
 LIBFT	= ./libft/libft.a
 MLX		= ./libmlx.dylib
-FLAGS	= -Wall -Wextra -Werror
+FLAGS	= -Wall -Wextra -Werror -g
 
 all : $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:22:00 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/14 02:25:55 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/15 08:07:35 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,22 @@
 # define FDF_H
 
 # include <libft.h>
+# include <mlx.h>
+
+/*
+**	MATRICES STRUCT
+*/
+
+typedef struct	s_matrix
+{
+	unsigned int	row_len;
+	unsigned int	column_len;
+	int				**value;
+}				t_matrix;
+
+/*
+**	MLX STRUCT
+*/
 
 typedef struct	s_hexcolor
 {
@@ -38,5 +54,28 @@ typedef	struct	s_window
 	unsigned int	height;
 	char			name[32];
 }				t_window;
+
+/*
+**	PARSING
+*/
+
+int				map_parse(t_matrix *matrix, char *path);
+unsigned int	raw_len(char **raw);
+
+/*
+**	MATRIX BASIC MANIPULATION
+*/
+
+int				matrix_addrow(t_matrix *matrix, char **raw);
+void			matrix_print(t_matrix *matrix);
+void			matrix_free(t_matrix *matrix);
+
+/*
+**	DRAWING
+*/
+
+/*
+**	CALCULUS
+*/
 
 #endif
