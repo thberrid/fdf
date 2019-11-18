@@ -6,14 +6,14 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 03:48:01 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/15 07:47:51 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/18 05:57:36 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 #include <fcntl.h>
 
-void			raw_free(char **raw)
+static void			raw_free(char **raw)
 {
 	int		i;
 
@@ -26,7 +26,7 @@ void			raw_free(char **raw)
 	ft_memdel((void **)&raw);
 }
 
-unsigned int	raw_len(char **raw)
+unsigned int		raw_len(char **raw)
 {
 	unsigned int	i;
 
@@ -36,7 +36,7 @@ unsigned int	raw_len(char **raw)
 	return (i);
 }
 
-int				map_parse(t_matrix *matrix, char *path)
+int					map_parse(t_matrix *matrix, char *path)
 {
 	int		fd;
 	int		retrn;
@@ -51,8 +51,9 @@ int				map_parse(t_matrix *matrix, char *path)
 	{
 		if (retrn < 0 || !(raw = ft_strsplitspaces(line)))
 			return (0);
-		if (!matrix_addrow(matrix, raw))
-			return (0);
+		if (raw_len(raw))
+			if (!matrix_addrow(matrix, raw))
+				return (0);
 		ft_strdel(&line);
 		raw_free(raw);
 	}

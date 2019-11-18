@@ -6,7 +6,7 @@
 #    By: thberrid <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/17 17:15:46 by thberrid          #+#    #+#              #
-#    Updated: 2019/11/15 06:27:31 by thberrid         ###   ########.fr        #
+#    Updated: 2019/11/18 05:38:31 by thberrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS = get_next_line.c \
 	   ft_atoi.c \
 	   ft_atol.c \
 	   ft_bzero.c \
+	   ft_intlen.c \
 	   ft_isalnum.c \
 	   ft_ischarset.c \
 	   ft_isalpha.c \

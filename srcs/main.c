@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:20:17 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/15 07:49:30 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/18 07:17:42 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,29 @@
 int		draw_radius(int keycode, t_window *w)
 {
 	t_pixel		px;
+	int			color;
 
+	color = 0;
+	color_add(&color, 255, RED);
+	color_add(&color, 255, BLUE);
+	color_remove(&color, 255, BLUE);
+	
+	ft_putstr("color ");
+	ft_putnbr(color);
+	ft_putchar('\n');
+	print_memory(&color, sizeof(int));
+	
+	ft_putstr("keycode ");
 	ft_putnbr(keycode);
 	ft_putchar('\n');
+
+	if (keycode == 53)
+	{
+		mlx_destroy_window(w->mlx, w->ptr);
+		exit(0);
+	}
 	if (keycode > 75)
 		return (0);
-	px.color.r = (char)keycode;
-	px.color.g = (char)keycode * 2;
-	px.color.b = (char)keycode * 3;
-	px.color.a = 0;
-	print_memory(&px.color, sizeof(t_hexcolor));
 	px.x = w->width / 2;
 	px.y = w->height / 2;
 	mlx_clear_window(w->mlx, w->ptr);
@@ -44,7 +57,7 @@ int		draw_radius(int keycode, t_window *w)
 			else
 				px.y -= 1;
 		}
-		mlx_pixel_put(w->mlx, w->ptr, px.x, px.y, 99999999);
+		mlx_pixel_put(w->mlx, w->ptr, px.x, px.y, color);
 	}
 	return (0);
 }
@@ -59,8 +72,8 @@ void	window_init(t_window *w)
 
 int		main(int ac, char **av)
 {
-	t_window	w;
-	t_matrix	matrix;
+	t_window		w;
+	t_matrix		matrix;
 
 	if (ac == 2 && map_parse(&matrix, av[1]))
 	{
@@ -70,6 +83,7 @@ int		main(int ac, char **av)
 		mlx_key_hook(w.ptr, &draw_radius, &w);
 		mlx_loop(w.mlx);
 	}
-	matrix_free(&matrix);
+	arr_free((void *)&matrix, matrix.row_len, sizeof(matrix));
+//	matrix_free(&matrix);
 	return (0);
 }

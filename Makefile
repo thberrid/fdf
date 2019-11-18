@@ -6,7 +6,7 @@
 #    By: thberrid <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/29 19:26:47 by thberrid          #+#    #+#              #
-#    Updated: 2019/11/15 07:46:24 by thberrid         ###   ########.fr        #
+#    Updated: 2019/11/18 06:58:33 by thberrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ DIR_C 	= srcs
 DIR_O	= obj
 DIR_H	= includes
 NAME_C	= main.c \
+		  colors.c \
 		  map_parse.c \
 		  matrix_addrow.c
 NAME_O	= $(NAME_C:.c=.o)

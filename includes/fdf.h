@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:22:00 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/15 08:07:35 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/18 07:11:53 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,28 @@ typedef struct	s_matrix
 {
 	unsigned int	row_len;
 	unsigned int	column_len;
+	unsigned char	type;
 	int				**value;
+	unsigned int	padding;
 }				t_matrix;
 
 /*
 **	MLX STRUCT
 */
 
-typedef struct	s_hexcolor
-{
-	unsigned int	r : 8;
-	unsigned int	g : 8;
-	unsigned int	b : 8;
-	unsigned int	a : 8;
-}				t_hexcolor;
+# define RED	16
+# define GREEN	8
+# define BLUE	0
+# define ALPHA	24	// 0 <-> 255 = 100% <-> 0% OPACITY
+
+# define FORCE_UINT(x)	*((unsigned int *)&x)
+# define FORCE_INT(x)	*((int *)&x)
 
 typedef struct	s_pixel
 {
-	int			x;
-	int			y;
-	t_hexcolor	color;
+	int	x;
+	int	y;
+	int	color;
 }				t_pixel;
 
 typedef	struct	s_window
@@ -69,10 +71,14 @@ unsigned int	raw_len(char **raw);
 int				matrix_addrow(t_matrix *matrix, char **raw);
 void			matrix_print(t_matrix *matrix);
 void			matrix_free(t_matrix *matrix);
+void			arr_free(void *arr, unsigned int step, unsigned int len);
 
 /*
 **	DRAWING
 */
+
+void	color_add(int *color, unsigned char value, unsigned char field);
+void	color_remove(int *color, unsigned char value, unsigned char field);
 
 /*
 **	CALCULUS

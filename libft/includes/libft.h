@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 12:57:04 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/15 06:28:48 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/18 05:39:53 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_atoi(const char *str);
 long			ft_atol(const char *str);
+unsigned int	ft_intlen(int n);
 int				ft_isalpha(int c);
 int				ft_ischarset(int c, char *charset);
 int				ft_isdigit(int c);
