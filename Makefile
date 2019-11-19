@@ -6,7 +6,7 @@
 #    By: thberrid <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/29 19:26:47 by thberrid          #+#    #+#              #
-#    Updated: 2019/11/18 06:58:33 by thberrid         ###   ########.fr        #
+#    Updated: 2019/11/19 08:26:17 by thberrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,21 +18,25 @@ DIR_H	= includes
 NAME_C	= main.c \
 		  colors.c \
 		  map_parse.c \
-		  matrix_addrow.c
+		  matrix_addrow.c \
+		  matrix_free.c \
+		  plan.c
 NAME_O	= $(NAME_C:.c=.o)
+NAME_H	= fdf.h \
+		  keycodes.h
 FILES_C	= $(addprefix $(DIR_C)/, $(NAME_C))
 FILES_O	= $(addprefix $(DIR_O)/, $(NAME_O))
-FILES_H	= fdf.h
+FILES_H	= $(addprefix $(DIR_H)/, $(NAME_H))
 LIBFT	= ./libft/libft.a
 MLX		= ./libmlx.dylib
 FLAGS	= -Wall -Wextra -Werror -g
 
 all : $(NAME)
 
-$(NAME) : $(FILES_O) $(DIR_H)/$(FILES_H) $(LIBFT) $(MLX)
+$(NAME) : $(FILES_O) $(FILES_H) $(LIBFT) $(MLX)
 	gcc -I ./$(DIR_H) -I ./libft/includes -I ./minilibx/ -L ./libft/ -lft $(MLX) -o $(NAME) $(FILES_O)
  
-$(DIR_O)/%.o : $(DIR_C)/%.c $(DIR_H)/$(FILES_H)
+$(DIR_O)/%.o : $(DIR_C)/%.c $(FILES_H)
 	@ mkdir -p $(DIR_O)
 	gcc $(FLAGS) -I ./$(DIR_H) -I ./libft/includes -I ./minilibx -c -o $@ $<
 
