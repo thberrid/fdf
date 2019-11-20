@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 07:56:05 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/19 07:56:11 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/20 02:35:25 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ void				matrix_free(t_matrix *matrix)
 		ft_memdel((void **)&matrix->value[i]);
 		i += 1;
 	}
-	ft_memdel((void **)matrix);
+	ft_memdel((void **)&matrix->value);
 }

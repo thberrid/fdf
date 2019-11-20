@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   projection_persp.c                                 :+:      :+:    :+:   */
+/*   vertex.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/19 05:39:44 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/20 06:47:21 by thberrid         ###   ########.fr       */
+/*   Created: 2019/11/20 05:33:00 by thberrid          #+#    #+#             */
+/*   Updated: 2019/11/20 05:33:20 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 
-void		perspective(t_vertex *dest, t_vertex *src)
+void	vertex_decrement(t_vertex *this, t_vertex *vector)
 {
-	dest->x = src->x / (src->x + 1);
-	dest->y = src->y / (src->y + 1);
-	dest->z = src->z;
+	this->x -= vector->x;
+	this->y -= vector->y;
+	this->z -= vector->z;
 }

@@ -6,13 +6,13 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:20:17 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/19 08:25:00 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/20 07:58:55 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 
-int		draw_radius(int keycode, t_window *w)
+int		draw_radius(unsigned int keycode, t_window *w)
 {
 	t_pixel		px;
 	int			color;
@@ -80,11 +80,18 @@ int		main(int ac, char **av)
 	{
 		if (!plan_init(&vertices, &plan))
 			return (0);
-		//projection_perspective(&vertices, &plan);
+		matrix_apply(&plan, &vertices, &perspective);
+		map_print(&plan);
+	//	img_init(&image);
+	//	img_update(&image, &plan);
+	//	frame_put(&image, &w / mlx)
 		window_init(&w);
 		w.mlx = mlx_init();
 		w.ptr = mlx_new_window(w.mlx, w.width, w.height, w.name);
 		mlx_key_hook(w.ptr, &draw_radius, &w);
+	//	vertices_update > translation, rotation, zoom
+	//	perspective() / ortho()
+	//	img_update(&frame, &plan);
 		mlx_loop(w.mlx);
 	}
 	matrix_free(&vertices);

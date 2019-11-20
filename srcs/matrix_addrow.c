@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 07:42:57 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/19 08:20:14 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/20 07:41:21 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** PUT VERTICES IN THE LAST ROW
 */
 
-void				row_setvertex(t_matrix *matrix, char **raw, float y)
+static void			row_setvertex(t_matrix *matrix, char **raw, float y)
 {
 	unsigned int	i;
 	unsigned int	rawlen;
@@ -28,8 +28,8 @@ void				row_setvertex(t_matrix *matrix, char **raw, float y)
 	while (i < matrix->column_len && i < rawlen)
 	{
 		this[i].x = (float)i;
-		this[i].y = y;
-		this[i].z = (float)ft_atoi(raw[i]);
+		this[i].y = (float)ft_atoi(raw[i]);
+		this[i].z = y;
 		i += 1;
 	}
 }
@@ -58,8 +58,7 @@ static int			matrix_extend(t_matrix *matrix)
 	return (1);
 }
 
-int					matrix_addrow(t_matrix *matrix, char **raw, float y,
-						void (*set_row)(t_matrix *, char **, float y))
+int					matrix_addrow(t_matrix *matrix, char **raw, float y)
 {
 	void			*new_row;
 
@@ -70,6 +69,6 @@ int					matrix_addrow(t_matrix *matrix, char **raw, float y,
 	if (!(new_row = ft_memalloc(matrix->column_len * matrix->type)))
 		return (0);
 	matrix->value[matrix->row_len - 1] = (void *)new_row;
-	set_row(matrix, raw, y);
+	row_setvertex(matrix, raw, y);
 	return (1);
 }
