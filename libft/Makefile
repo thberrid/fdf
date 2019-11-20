@@ -6,7 +6,7 @@
 #    By: thberrid <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/17 17:15:46 by thberrid          #+#    #+#              #
-#    Updated: 2019/11/18 05:38:31 by thberrid         ###   ########.fr        #
+#    Updated: 2019/11/20 02:28:08 by thberrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,7 @@ SRCS = get_next_line.c \
 	   ft_putascii.c \
 	   ft_putchar.c \
 	   ft_putchar_fd.c \
+	   ft_putfloat.c \
 	   ft_putendl.c \
 	   ft_putendl_fd.c \
 	   ft_putnbr.c \
@@ -104,6 +105,7 @@ INC_NAME 	= libft.h \
 CPPFLAGS 	= -I ./includes
 INCDIR 		= includes
 CPPFLAGS 	= -I ./includes
+CFLAGS		= -Wall -Wextra -Werror
 OBJS_NAME 	= $(SRCS:.c=.o)
 OBJS 		= $(addprefix $(OBJDIR)/, $(OBJS_NAME))
 FILES_H 	= $(addprefix $(INCDIR)/, $(INC_NAME))

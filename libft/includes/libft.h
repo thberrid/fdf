@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 12:57:04 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/18 05:39:53 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/20 02:25:37 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ char			**ft_strsplitspaces(char const *s);
 char			*ft_itoa(int n);
 void			ft_putascii(void *ptr, size_t len);
 void			ft_putchar(char c);
+void			ft_putfloat(float nbr, int precision);
 void			ft_putstr(char const *s);
 void			ft_putendl(char const *s);
 void			ft_putnbr(int n);
