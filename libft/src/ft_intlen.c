@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 05:37:49 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/18 05:37:59 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/20 04:08:29 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@ unsigned int	ft_intlen(int nbr)
 	unsigned int	len;
 
 	len = 1;
+	if (nbr < 0)
+	{
+		nbr *= -1;
+		len += 1;
+	}
 	while (nbr >= 10)
 	{
 		nbr /= 10;
