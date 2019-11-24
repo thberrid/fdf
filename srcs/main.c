@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:20:17 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/20 10:07:14 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/25 00:13:51 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@ int		draw_radius(unsigned int keycode, t_window *w)
 
 	color = 0;
 	blue = 0;
-	color_add(&blue, 255, GREEN);
+	color_add(&blue, 255, BLUE);
 	color_add(&color, 255, RED);
-	color_add(&color, 255, BLUE);
-	color_remove(&color, 255, BLUE);
 	
 	ft_putstr("color ");
 	ft_putnbr(color);
@@ -77,12 +75,60 @@ int		draw_radius(unsigned int keycode, t_window *w)
 			else
 				px.y -= 1;
 		}
-		ft_memcpy(&(w->img.data[(px.x * w->img.bits_px / 8) + (px.y * w->img.size_line)]), &color, w->img.bits_px / 8);
+//		ft_memcpy(&(w->img.data[(px.x * w->img.bits_px / 8) + (px.y * w->img.size_line)]), &color, w->img.bits_px / 8);
 		mlx_pixel_put(w->mlx, w->ptr, px.x + 5, px.y + 5, blue);
 	}
-	mlx_put_image_to_window(w->mlx, w->ptr, w->img.id, 0, 0);
+	mlx_put_image_to_window(w->mlx, w->ptr, w->img.id, 100, 100);
 	return (0);
 }
+
+int		draw_square(unsigned int keycode, t_window *w)
+{
+	int		color;
+	int		x;
+	int		y;
+	int		x_max;
+	int		y_max;
+
+	FT_UNUSED(keycode);
+	if (keycode == KEY_ESC)
+	{
+		mlx_destroy_window(w->mlx, w->ptr);
+		exit(0);
+	}		
+	if (w->img.id)
+		mlx_destroy_image(w->mlx, w->img.id);
+	w->img.id = mlx_new_image(w->mlx, 100, 500);
+	w->img.data = mlx_get_data_addr(w->img.id, &w->img.bits_px, &w->img.size_line, &w->img.endian); 
+	ft_putstr("sl ");
+	ft_putnbr(w->img.size_line);
+	ft_putchar('\n');
+	ft_putstr("bpp ");
+	ft_putnbr(w->img.bits_px);
+	ft_putchar('\n');
+	y = 0;
+	y_max = 500;
+	x_max = 100;
+	color = 0;
+	color_add(&color, 255, RED);
+	while (y < y_max)
+	{
+		x = 0;
+		while (x < x_max)
+		{
+			ft_memcpy(&(w->img.data[(x * w->img.bits_px / 8) + (y * w->img.size_line)]), &color, w->img.bits_px / 8);
+			x += 5;
+		}
+		color_add(&color, y, GREEN);
+		ft_putnbr(color);
+	ft_putchar(' ');
+		print_memory(&color, sizeof(int));
+		y += 5;
+	}
+	mlx_put_image_to_window(w->mlx, w->ptr, w->img.id, 10, 10);
+	return (0);
+}
+
 /*
 static void		matrix_output(t_vertex *vertex, t_vertex *useless)
 {
@@ -121,7 +167,8 @@ int		main(int ac, char **av)
 		window_init(&w);
 		w.mlx = mlx_init();
 		w.ptr = mlx_new_window(w.mlx, w.width, w.height, w.name);
-		mlx_key_hook(w.ptr, &draw_radius, &w);
+		//mlx_key_hook(w.ptr, &draw_radius, &w);
+		mlx_key_hook(w.ptr, &draw_square, &w);
 	//	vertices_update > translation, rotation, zoom
 	//	perspective() / ortho()
 	//	img_update(&frame, &plan);

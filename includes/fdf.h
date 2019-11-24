@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:22:00 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/20 07:55:43 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/20 09:49:26 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@ typedef struct	s_matrix
 	unsigned int	type;
 }				t_matrix;
 
+typedef struct	s_vertex
+{
+	float	x;
+	float	y;
+	float	z;
+}				t_vertex;
+
 /*
 **	GRAPHIC RELATED STRUCT
 */
@@ -49,17 +56,20 @@ typedef struct	s_pixel
 	int				color;
 }				t_pixel;
 
-typedef struct	s_vertex
+typedef struct 	s_img
 {
-	float	x;
-	float	y;
-	float	z;
-}				t_vertex;
+	void	*id;
+	char	*data;
+	int		bits_px;
+	int		size_line;
+	int		endian;
+}				t_img;
 
 typedef	struct	s_window
 {
 	void			*ptr;
 	void			*mlx;
+	t_img			img;
 	unsigned int	width;
 	unsigned int	height;
 	char			name[32];
