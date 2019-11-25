@@ -6,7 +6,7 @@
 #    By: thberrid <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/29 19:26:47 by thberrid          #+#    #+#              #
-#    Updated: 2019/11/20 07:19:31 by thberrid         ###   ########.fr        #
+#    Updated: 2019/11/25 02:12:26 by thberrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,12 +17,12 @@ DIR_O	= obj
 DIR_H	= includes
 NAME_C	= main.c \
 		  colors.c \
+		  image.c \
 		  map_parse.c \
 		  map_print.c \
 		  matrix.c \
 		  matrix_addrow.c \
 		  matrix_free.c \
-		  plan.c \
 		  projection_persp.c \
 		  vertex.c
 NAME_O	= $(NAME_C:.c=.o)

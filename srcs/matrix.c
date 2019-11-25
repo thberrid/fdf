@@ -6,11 +6,35 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:33:53 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/20 07:50:26 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/25 03:11:55 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
+
+/*
+**	BROWSE A MATRIX
+**	AND SET ITS VALUES FROM A SINGLE VECTOR
+*/
+
+void	matrix_cpy(t_matrix *dest, t_matrix *src, t_vertex *vector,
+				void (*f)(t_vertex *, t_vertex *, t_vertex *))
+{
+	unsigned int	i;
+	unsigned int	j;
+
+	i = 0;
+	while (i < src->row_len)
+	{
+		j = 0;
+		while (j < src->column_len)
+		{
+			f(&((t_vertex *)dest->value[i])[j], &((t_vertex *)src->value[i])[j], vector);
+			j += 1;
+		}
+		i += 1;
+	}
+}
 
 /*
 **	BROWSE A MATRIX
@@ -67,7 +91,7 @@ void	matrix_apply(t_matrix *vertices, t_matrix *vectors,
 ** AND RETURN VALUE DEPENDING A *FUNCTION
 */
 
-float	matrix_get(t_matrix *vertices, float value, float (*f)(float, float))
+float	matrix_get(t_matrix *vertices, float value, unsigned char dimension, float (*f)(float, t_vertex *, unsigned char))
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -78,10 +102,33 @@ float	matrix_get(t_matrix *vertices, float value, float (*f)(float, float))
 		j = 0;
 		while (j < vertices->column_len)
 		{
-			value = f(value, (float)((t_vertex *)vertices->value[i])[j].y);
+			value = f(value, &((t_vertex *)vertices->value[i])[j], dimension);
 			j += 1;
 		}
 		i += 1;
 	}
 	return (value);
+}
+
+/*
+**	CREATE AN EMPTY MATRIX
+*/
+
+int		matrix_init(t_matrix *new, t_matrix *src, unsigned char type)
+{
+	unsigned int	i;
+
+	ft_bzero(new, sizeof(t_matrix));
+	i = 0;
+	new->row_len = src->row_len;
+	new->column_len = src->column_len;
+	if (!(new->value = ft_memalloc(PTR * src->row_len)))
+		return (0);
+	while (i < src->row_len)
+	{
+		if (!(new->value[i] = ft_memalloc(type * src->column_len)))
+			return (0);
+		i += 1;
+	}
+	return (1);
 }

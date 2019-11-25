@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 03:48:01 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/20 07:56:32 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/25 06:37:10 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,30 @@ unsigned int		raw_len(char **raw)
 	return (i);
 }
 
-static float		get_min(float value, float new_value)
+float				get_min(float value, t_vertex *new_vertex, unsigned char dimension)
 {
+	float new_value;
+
+	new_value = new_vertex->x;
+	if (dimension == Y)
+		new_value = new_vertex->y;
+	if (dimension == Z)
+		new_value = new_vertex->z;
 	if (new_value < value)
+		return (new_value);
+	return (value);
+}
+
+float				get_max(float value, t_vertex *new_vertex, unsigned char dimension)
+{
+	float new_value;
+	
+	new_value = new_vertex->x;
+	if (dimension == Y)
+		new_value = new_vertex->y;
+	if (dimension == Z)
+		new_value = new_vertex->z;
+	if (new_value > value)
 		return (new_value);
 	return (value);
 }
@@ -47,9 +68,9 @@ static void			map_center(t_matrix *vertices)
 {
 	t_vertex	vector;
 
-	vector.x = vertices->column_len / 2;
-	vector.y = matrix_get(vertices, 0, &get_min);
-	vector.z = vertices->row_len + 1;
+	vector.x = vertices->column_len * 5;
+	vector.y = get_range(vertices, Y) + 5;
+	vector.z = vertices->row_len + 2;
 	matrix_set(vertices, &vector, &vertex_decrement);
 }
 

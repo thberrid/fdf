@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:22:00 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/20 09:49:26 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/25 06:35:20 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 /*
 **	MATRICES STRUCT
 */
+
+# define X 0
+# define Y 1
+# define Z 2
 
 typedef struct	s_matrix
 {
@@ -70,6 +74,7 @@ typedef	struct	s_window
 	void			*ptr;
 	void			*mlx;
 	t_img			img;
+	t_matrix		px_coord;
 	unsigned int	width;
 	unsigned int	height;
 	char			name[32];
@@ -79,6 +84,7 @@ typedef	struct	s_window
 # define FLOAT	sizeof(float)
 # define PTR	sizeof(void *)
 # define VERTEX	sizeof(t_vertex)
+# define PIXEL	sizeof(t_pixel)
 
 # define FORCE_UINT(x)	*((unsigned int *)&x)
 # define FORCE_INT(x)	*((int *)&x)
@@ -91,25 +97,34 @@ int				map_parse(t_matrix *matrix, char *path);
 unsigned int	raw_len(char **raw);
 void			map_print(t_matrix *matrix);
 int				matrix_addrow(t_matrix *matrix, char **raw, float y);
+float			get_range(t_matrix *plan, unsigned char dimension);
 
 /*
 **	MATRIX BASIC MANIPULATION
 */
 
-float			matrix_get(t_matrix *vertices, float value,
-					float (*f)(float, float));
+float			matrix_get(t_matrix *vertices, float value, 
+					unsigned char dimension, 
+					float (*f)(float, t_vertex*, unsigned char));
 void			matrix_set(t_matrix *vertices, t_vertex *vector,
 					void (*f)(t_vertex *, t_vertex *));
 void			matrix_apply(t_matrix *vertices, t_matrix *vectors,
 					void (*f)(t_vertex *, t_vertex *));
+void			matrix_cpy(t_matrix *dest, t_matrix *src, t_vertex *vector,
+					void (*f)(t_vertex *, t_vertex *, t_vertex *));
 void			matrix_free(t_matrix *matrix);
+int				matrix_init(t_matrix *vertices, t_matrix *plan, 
+					unsigned char type);
 void			vertex_decrement(t_vertex *this, t_vertex *vector);
+float			get_min(float value, t_vertex *new_value, unsigned char dimension);
+float			get_max(float value, t_vertex *new_value, unsigned char dimension);
+void			print_this(t_vertex *this, t_vertex *nullit);
 
 /*
 **	DRAWING
 */
 
-int				plan_init(t_matrix *vertices, t_matrix *plan);
+void			img_update(t_matrix *img, t_matrix *plan, t_window *w);
 void			color_add(int *color, unsigned char value, unsigned char field);
 void			color_remove(int *color, unsigned char value,
 					unsigned char field);
