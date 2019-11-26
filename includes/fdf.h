@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:22:00 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/25 06:35:20 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/26 07:02:12 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ typedef	struct	s_window
 
 # define FORCE_UINT(x)	*((unsigned int *)&x)
 # define FORCE_INT(x)	*((int *)&x)
+
+# define ABS(x)			(x < 0 ? -x : x)
 
 /*
 **	PARSING
