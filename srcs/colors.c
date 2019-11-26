@@ -6,11 +6,19 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 06:53:37 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/18 07:09:07 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/26 07:47:10 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
+
+/*
+**	00	00	00	00
+**	 A	 R	 G	 B
+**	
+**	field = R | G | B | A 
+**	value <= 0 && value >= 255
+*/
 
 void	color_add(int *color, unsigned char value, unsigned char field)
 {
