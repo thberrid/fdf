@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 03:48:01 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/27 06:39:22 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/27 06:49:04 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,6 @@ int					map_parse(t_matrix *vertices, char *path)
 		line_n += 1;
 	}
 //	if (0)
-	map_reindex_Z(vertices);
+	map_reindex_z(vertices);
 	return (1);
 }

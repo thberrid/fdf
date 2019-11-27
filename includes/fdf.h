@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:22:00 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/27 06:23:30 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/27 07:17:32 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void			print_this(t_vertex *this, t_vertex *nullit);
 **	DRAWING
 */
 
-void			img_update(t_matrix *img, t_matrix *plan, t_window *w);
+void			img_build(t_matrix *img, t_matrix *plan, t_window *w);
 void			color_add(int *color, unsigned char value, unsigned char field);
 void			color_remove(int *color, unsigned char value,
 					unsigned char field);

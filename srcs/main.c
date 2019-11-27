@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:20:17 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/27 06:25:28 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/27 07:17:23 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,16 +265,13 @@ int		main(int ac, char **av)
 
 	if (ac == 2 && map_parse(&vertices, av[1]))
 	{
-		ft_putstr("w ");
-		ft_putnbr(w.width);
-		ft_putchar('\n');
 		if (!matrix_init(&plan, &vertices, VERTEX))
 			return (0);
 		window_init(&w);
 //		matrix_apply(&plan, &vertices, &perspective);
 		matrix_apply(&plan, &vertices, &ortho);
 		matrix_init(&w.px_coord, &plan, PIXEL);
-		img_update(&w.px_coord, &plan, &w);
+		img_build(&w.px_coord, &plan, &w);
 //		matrix_set(&w.px_coord, NULL, &print_this);
 		w.mlx = mlx_init();
 		w.ptr = mlx_new_window(w.mlx, w.width, w.height, w.name);	
