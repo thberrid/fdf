@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:22:00 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/26 07:02:12 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/27 06:23:30 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ typedef struct	s_vertex
 
 typedef struct	s_pixel
 {
-	unsigned int	x;
-	unsigned int	y;
+	int	x;
+	int	y;
 	int				color;
 }				t_pixel;
 
@@ -136,5 +136,6 @@ void			color_remove(int *color, unsigned char value,
 */
 
 void			perspective(t_vertex *map, t_vertex *vertices);
+void			ortho(t_vertex *map, t_vertex *vertices);
 
 #endif

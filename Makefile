@@ -6,7 +6,7 @@
 #    By: thberrid <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/29 19:26:47 by thberrid          #+#    #+#              #
-#    Updated: 2019/11/25 02:12:26 by thberrid         ###   ########.fr        #
+#    Updated: 2019/11/27 01:56:20 by thberrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ NAME_C	= main.c \
 		  matrix_addrow.c \
 		  matrix_free.c \
 		  projection_persp.c \
+		  projection_ortho.c \
 		  vertex.c
 NAME_O	= $(NAME_C:.c=.o)
 NAME_H	= fdf.h \

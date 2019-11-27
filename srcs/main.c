@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:20:17 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/26 07:47:57 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/27 06:25:28 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,28 @@ void	draw_line(t_pixel *start, t_pixel *end, t_img *img)
 	
 	step_x = end->x > start->x ? 1 : -1;
 	step_y = end->y > start->y ? 1 : -1;
-
+/*	
+	ft_putstr("whaaaaaat ");
+	ft_putnbr(start->y);
+	ft_putchar(' ');
+	ft_putnbr(end->y);
+	ft_putchar('\n');
+	ft_putstr("step ");
+	ft_putnbr(step_y);
+	ft_putchar('\n');
+*/
 	x = start->x;
 	y = start->y;
 	error = delta_fast / 2;
+	/*
+	if (delta_x < delta_y)
+	{
+		ft_putstr("ob ");
+		ft_putnbr(delta_y);
+		ft_putchar('\n');
+	}
+	*/
+	/*
 ft_putendl("-----------------");
 		ft_putstr("delta x ");
 		ft_putnbr(delta_x);
@@ -84,17 +102,22 @@ ft_putendl("");
 		ft_putnbr(end->y);
 		ft_putchar('\n');
 ft_putendl("");
+*/
+//	unsigned int maxdot =  (750 * img->bits_px / 8) + (750 * img->size_line);
 	while (i < delta_fast)
 	{
-		
+	
+	/*	
 		ft_putstr("x ");
 		ft_putnbr(x);
-		ft_putchar('\n');
+		ft_putchar(' ');
 		ft_putstr("y ");
 		ft_putnbr(y);
 		ft_putchar('\n');
-		
-		ft_memcpy(&(img->data[(x * img->bits_px / 8) + (y * img->size_line)]), &color, img->bits_px / 8);
+	*/
+//		unsigned int dot = (x * img->bits_px / 8) + (y * img->size_line);
+		if (x > 0 && y > 0 && x < 750 && y < 750)
+			ft_memcpy(&(img->data[(x * img->bits_px / 8) + (y * img->size_line)]), &color, img->bits_px / 8);
 		error -= delta_slow;
 		if (error <= 0)
 		{
@@ -159,7 +182,7 @@ int		draw_px(unsigned int keycode, t_window *w)
 	color_add(&color, 255, GREEN);
 
 	/* print px */
-
+	
 	y = 0;
 	while (y < w->px_coord.row_len)
 	{
@@ -178,10 +201,13 @@ int		draw_px(unsigned int keycode, t_window *w)
 		}
 		y += 1;
 	}
+	
 
 	/* line */
 
+	ft_putendl("ok boomer");
 	y = 0;
+
 	while (y < w->px_coord.row_len)
 	{
 		x = 0;
@@ -193,9 +219,10 @@ int		draw_px(unsigned int keycode, t_window *w)
 		y += 1;
 	}
 
-//	matrix_printinfos(&w->px_coord);
+	//ft_putendl("ok kevin");
+	//matrix_printinfos(&w->px_coord);
 
-	unsigned int maxdot =  (w->width * w->img.bits_px / 8) + (w->height * w->img.size_line);
+//	unsigned int maxdot =  (w->width * w->img.bits_px / 8) + (w->height * w->img.size_line);
 
 	y = 0;
 	while (y < w->px_coord.row_len)
@@ -204,13 +231,14 @@ int		draw_px(unsigned int keycode, t_window *w)
 		while (x < w->px_coord.column_len)
 		{
 			this = &((t_pixel *)w->px_coord.value[y])[x];
-			ft_putstr("str ");
+		/*	ft_putstr("str ");
 			ft_putnbr((unsigned int)this->x);
 			ft_putchar(' ');
 			ft_putnbr((unsigned int)this->y);
 			ft_putchar('\n');
-			unsigned int dot = ((unsigned int)this->x * w->img.bits_px / 8) + ((unsigned int)this->y * w->img.size_line);
-			if (dot < maxdot)
+		*/
+//			unsigned int dot = ((unsigned int)this->x * w->img.bits_px / 8) + ((unsigned int)this->y * w->img.size_line);
+			if (this->x > 0 && this->y > 0 && this->y < 750 && this->x < 750)
 				ft_memcpy(&(w->img.data[((unsigned int)this->x * w->img.bits_px / 8) + ((unsigned int)this->y * w->img.size_line)]), &color, w->img.bits_px / 8);
 			x += 1;
 		}
@@ -226,7 +254,7 @@ void	window_init(t_window *w)
 	ft_bzero(w, sizeof(t_window));
 	w->width = 750;
 	w->height = 750;
-	ft_strcpy(w->name, "lolilol");
+	ft_strcpy(w->name, "ok boomer");
 }
 
 int		main(int ac, char **av)
@@ -243,10 +271,11 @@ int		main(int ac, char **av)
 		if (!matrix_init(&plan, &vertices, VERTEX))
 			return (0);
 		window_init(&w);
-		matrix_apply(&plan, &vertices, &perspective);
+//		matrix_apply(&plan, &vertices, &perspective);
+		matrix_apply(&plan, &vertices, &ortho);
 		matrix_init(&w.px_coord, &plan, PIXEL);
 		img_update(&w.px_coord, &plan, &w);
-		matrix_set(&w.px_coord, NULL, &print_this);
+//		matrix_set(&w.px_coord, NULL, &print_this);
 		w.mlx = mlx_init();
 		w.ptr = mlx_new_window(w.mlx, w.width, w.height, w.name);	
 		mlx_key_hook(w.ptr, &draw_px, &w);

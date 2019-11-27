@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 03:48:01 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/25 06:37:10 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/27 06:39:22 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,17 @@ float				get_max(float value, t_vertex *new_vertex, unsigned char dimension)
 	return (value);
 }
 
-static void			map_center(t_matrix *vertices)
+static void			map_reindex_z(t_matrix *vertices)
 {
 	t_vertex	vector;
 
-	vector.x = vertices->column_len * 5;
+/*	vector.x = vertices->column_len * 5;
 	vector.y = get_range(vertices, Y) + 5;
-	vector.z = vertices->row_len + 2;
+	vector.z = vertices->row_len;
+*/
+	vector.x = 0;
+	vector.y = 0;
+	vector.z = vertices->row_len;
 	matrix_set(vertices, &vector, &vertex_decrement);
 }
 
@@ -103,6 +107,7 @@ int					map_parse(t_matrix *vertices, char *path)
 		raw_free(raw);
 		line_n += 1;
 	}
-	map_center(vertices);
+//	if (0)
+	map_reindex_Z(vertices);
 	return (1);
 }
