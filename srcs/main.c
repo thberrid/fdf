@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:20:17 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/27 07:17:23 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/28 07:02:51 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,9 +157,11 @@ int		draw_px(unsigned int keycode, t_window *w)
 	unsigned int		x;
 	unsigned int		y;
 
+	/*
 	ft_putstr("keycode ");
 	ft_putnbr(keycode);
 	ft_putchar('\n');
+	*/
 	if (keycode == KEY_ESC)
 	{
 		mlx_destroy_window(w->mlx, w->ptr);
@@ -169,20 +171,22 @@ int		draw_px(unsigned int keycode, t_window *w)
 		mlx_destroy_image(w->mlx, w->img.id);
 	w->img.id = mlx_new_image(w->mlx, w->width, w->height);
 	w->img.data = mlx_get_data_addr(w->img.id, &w->img.bits_px, &w->img.size_line, &w->img.endian); 
+	/*
 	ft_putstr("sl ");
 	ft_putnbr(w->img.size_line);
 	ft_putchar('\n');
 	ft_putstr("bpp ");
 	ft_putnbr(w->img.bits_px);
 	ft_putchar('\n');
-
+*/
 	t_pixel *this;
 	color = 0;
 	color_add(&color, 255, BLUE);
 	color_add(&color, 255, GREEN);
 
 	/* print px */
-	
+
+	/*
 	y = 0;
 	while (y < w->px_coord.row_len)
 	{
@@ -201,7 +205,7 @@ int		draw_px(unsigned int keycode, t_window *w)
 		}
 		y += 1;
 	}
-	
+	*/
 
 	/* line */
 
@@ -274,7 +278,8 @@ int		main(int ac, char **av)
 		img_build(&w.px_coord, &plan, &w);
 //		matrix_set(&w.px_coord, NULL, &print_this);
 		w.mlx = mlx_init();
-		w.ptr = mlx_new_window(w.mlx, w.width, w.height, w.name);	
+		w.ptr = mlx_new_window(w.mlx, w.width, w.height, w.name);
+		draw_px(0, &w);
 		mlx_key_hook(w.ptr, &draw_px, &w);
 	//	vertices_update > translation, rotation, zoom
 	//	perspective() / ortho()

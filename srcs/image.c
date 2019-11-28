@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 01:52:05 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/27 09:48:22 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/28 07:13:54 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,21 +143,11 @@ void	img_build(t_matrix *img, t_matrix *plan, t_window *w)
 
 	/* shift */
 
-	
 	int		shift_x;
 	int		shift_y;
 
-	if (ratio_img > ratio_w)
-	{
-		shift_x = int_minmax(img, FT_INTMAX, X, &is_inf) - 50;
-		shift_y = int_minmax(img, FT_INTMIN, Y, &is_sup) - ((w->height) / 2) - (int_range(img, Y) / 2); 
-	}
-	else
-	{
-		shift_x = int_minmax(img, FT_INTMAX, X, &is_inf) - 200;
-		//shift_x = int_minmax(img, FT_INTMAX, X, &is_inf) + ((w->width) / 2) - (int_range(img, X) / 2); 
-		shift_y = int_minmax(img, FT_INTMIN, Y, &is_sup) - ((w->height) / 2) - (int_range(img, Y) / 2); 
-	}
+	shift_x = int_minmax(img, FT_INTMIN, X, &is_sup) - ((w->width) / 2) - (int_range(img, X) / 2);
+	shift_y = int_minmax(img, FT_INTMIN, Y, &is_sup) - ((w->height) / 2) - (int_range(img, Y) / 2); 
 	ft_putstr("shift ");
 	ft_putnbr(shift_x);
 	ft_putchar('\n');
