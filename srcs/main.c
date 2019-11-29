@@ -6,11 +6,12 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:20:17 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/28 07:02:51 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/29 03:11:17 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
+#include <math.h>
 
 void	matrix_printinfos(t_matrix *matrix)
 {
@@ -151,12 +152,76 @@ void	draw_edges(t_img *img, t_matrix *pixels, unsigned int x, unsigned int y)
 	draw_line(start, end, img);
 }
 
-int		draw_px(unsigned int keycode, t_window *w)
+int		set_rotation_angle(t_matrix *matrix, double theta)
 {
-	int		color;
-	unsigned int		x;
-	unsigned int		y;
+	unsigned int		i;
 
+	if (!(matrix->value = ft_memalloc(PTR * matrix->row_len)))
+		return (0);
+	i = 0;
+	while (i < matrix->row_len)
+	{
+		if (!(matrix->value[i] = ft_memalloc(VERTEX * matrix->column_len)))
+			return (0);
+		i += 1;
+	}
+	t_vertex *this;
+
+	this = &((t_vertex *)matrix->value[0])[0];
+	this->x = cos(theta);
+	this->y = 0;
+	this->z	= -1 * sin(theta);
+	this = &((t_vertex *)matrix->value[0])[1];
+	this->x = 0;
+	this->y = 1;
+	this->z = 0;
+	this = &((t_vertex *)matrix->value[0])[2];
+	this->x = sin(theta);
+	this->y = 0;
+	this->z = cos(theta);
+	/*
+	this = &((t_vertex *)matrix->value[0])[0];
+	this->x = cos(theta);
+	this->y = sin(theta);
+	this->z	= 0;
+	this = &((t_vertex *)matrix->value[0])[1];
+	this->x = -1 * sin(theta);
+	this->y = cos(theta);
+	this->z = 0;
+	this = &((t_vertex *)matrix->value[0])[2];
+	this->x = 0;
+	this->y = 0;
+	this->z = 1;
+	*/
+	return (1);
+}
+
+void	apply_rotation(t_matrix *rot, t_vertex *vertices)
+{
+	float tmp_x;
+	float tmp_y;
+	float tmp_z;
+
+	t_vertex *one;
+	t_vertex *two;
+	t_vertex *three;
+	one = &((t_vertex *)rot->value[0])[0];
+	two = &((t_vertex *)rot->value[0])[1];
+	three = &((t_vertex *)rot->value[0])[2];
+	tmp_x = (one->x * vertices->x) + (two->x * vertices->y) + (three->x * vertices->z);
+	tmp_y = (one->y * vertices->x) + (two->y * vertices->y) + (three->y * vertices->z);
+	tmp_z = (one->z * vertices->x) + (two->z * vertices->y) + (three->z * vertices->z);
+
+	vertices->x = tmp_x;
+	vertices->y = tmp_y;
+	vertices->z = tmp_z;
+}
+
+int		rotate(unsigned int keycode, t_window *w)
+{
+	t_matrix		plan;
+	
+	ft_bzero(&plan, sizeof(t_matrix));
 	/*
 	ft_putstr("keycode ");
 	ft_putnbr(keycode);
@@ -166,7 +231,53 @@ int		draw_px(unsigned int keycode, t_window *w)
 	{
 		mlx_destroy_window(w->mlx, w->ptr);
 		exit(0);
-	}		
+	}
+	/* rotation */
+	
+	unsigned int		i;
+	unsigned int		j;
+
+	t_matrix	rot;
+
+	ft_bzero(&rot, sizeof(t_matrix));
+	rot.row_len = 1;
+	rot.column_len = 3;
+	set_rotation_angle(&rot, 25);
+
+	i = 0;
+	while (i < w->vertices.row_len)
+	{
+		j = 0;
+		while (j < w->vertices.column_len)
+		{
+			apply_rotation(&rot, &((t_vertex *)w->vertices.value[i])[j]);
+			j+= 1;
+		}
+		i += 1;
+	}
+
+	/* uppdate */
+	
+	if (!matrix_init(&plan, &w->vertices, VERTEX))
+		return (0);
+	matrix_apply(&plan, &w->vertices, &ortho);
+	matrix_free(&w->px_coord);
+	matrix_init(&w->px_coord, &plan, PIXEL);
+	img_build(&w->px_coord, &plan, w);
+
+	/* then draw */
+	
+	draw_px(0, w);
+	return (1);
+}
+
+int		draw_px(unsigned int keycode, t_window *w)
+{
+	int		color;
+	unsigned int		x;
+	unsigned int		y;
+
+	FT_UNUSED(keycode);
 	if (w->img.id)
 		mlx_destroy_image(w->mlx, w->img.id);
 	w->img.id = mlx_new_image(w->mlx, w->width, w->height);
@@ -186,7 +297,7 @@ int		draw_px(unsigned int keycode, t_window *w)
 
 	/* print px */
 
-	/*
+	
 	y = 0;
 	while (y < w->px_coord.row_len)
 	{
@@ -205,7 +316,7 @@ int		draw_px(unsigned int keycode, t_window *w)
 		}
 		y += 1;
 	}
-	*/
+	
 
 	/* line */
 
@@ -264,28 +375,27 @@ void	window_init(t_window *w)
 int		main(int ac, char **av)
 {
 	t_window		w;
-	t_matrix		vertices;
 	t_matrix		plan;
 
-	if (ac == 2 && map_parse(&vertices, av[1]))
+	window_init(&w);
+	if (ac == 2 && map_parse(&(w.vertices), av[1]))
 	{
-		if (!matrix_init(&plan, &vertices, VERTEX))
+		if (!matrix_init(&plan, &(w.vertices), VERTEX))
 			return (0);
-		window_init(&w);
 //		matrix_apply(&plan, &vertices, &perspective);
-		matrix_apply(&plan, &vertices, &ortho);
+		matrix_apply(&plan, &w.vertices, &ortho);
 		matrix_init(&w.px_coord, &plan, PIXEL);
 		img_build(&w.px_coord, &plan, &w);
 //		matrix_set(&w.px_coord, NULL, &print_this);
 		w.mlx = mlx_init();
 		w.ptr = mlx_new_window(w.mlx, w.width, w.height, w.name);
 		draw_px(0, &w);
-		mlx_key_hook(w.ptr, &draw_px, &w);
+		mlx_key_hook(w.ptr, &rotate, &w);
 	//	vertices_update > translation, rotation, zoom
 	//	perspective() / ortho()
 	//	img_update(&frame, &plan);
 		mlx_loop(w.mlx);
-		matrix_free(&vertices);
+	//	matrix_free(&w.vertices);
 	}
 	return (0);
 }

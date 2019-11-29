@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 01:52:05 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/28 07:13:54 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/29 02:59:58 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,6 @@ void	img_build(t_matrix *img, t_matrix *plan, t_window *w)
 	ratio_img = get_range(plan, X) / get_range(plan, Y);
 	ratio_w = (w->width - 100) / (w->height - 100);
 	
-	ft_putstr("ri ");
-	ft_putfloat(ratio_img, 5);
-	ft_putchar('\n');
-	ft_putstr("rs ");
-	ft_putfloat(ratio_w, 5);
-	ft_putchar('\n');
-	
 	/* scale */
 
 	if (ratio_img > ratio_w)
@@ -148,11 +141,7 @@ void	img_build(t_matrix *img, t_matrix *plan, t_window *w)
 
 	shift_x = int_minmax(img, FT_INTMIN, X, &is_sup) - ((w->width) / 2) - (int_range(img, X) / 2);
 	shift_y = int_minmax(img, FT_INTMIN, Y, &is_sup) - ((w->height) / 2) - (int_range(img, Y) / 2); 
-	ft_putstr("shift ");
-	ft_putnbr(shift_x);
-	ft_putchar('\n');
-
-	y = 0;
+		y = 0;
 	while (y < img->row_len)
 	{
 		x = 0;
