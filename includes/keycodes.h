@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 03:36:09 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/19 03:45:56 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/29 03:35:03 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # define KEY_ESC 	53
 # define KEY_ENTER 	36
+
+# define KEY_PERSP	35
+# define KEY_ORTHO	31
 
 # define KEY_LEFT	123
 # define KEY_RIGHT	124

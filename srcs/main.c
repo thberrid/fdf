@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:20:17 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/29 03:11:17 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/29 07:33:59 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,21 @@ void	draw_line(t_pixel *start, t_pixel *end, t_img *img)
 	int delta_y;
 	int step_x;
 	int step_y;
+	int	step_color;
 	unsigned int x;
 	unsigned int y;
 	int			color;
 	float		error;
 	unsigned int	i;
+	unsigned char field;
+//	unsigned char value;
 
 	i = 0;
 
 	if (!end)
 		return ;
+
 	
-	color = 0;
-	color_add(&color, 255, RED);
 
 //	delta_x = ABS((end->x - start->x));	
 //	delta_y = ABS(end->y - start->y));
@@ -54,6 +56,27 @@ void	draw_line(t_pixel *start, t_pixel *end, t_img *img)
 		delta_y *= -1;
 	delta_fast = delta_x > delta_y ? delta_x : delta_y;
 	delta_slow = delta_x < delta_y ? delta_x : delta_y;
+
+	step_color = 0;
+
+	step_color = start->color ^ end->color;
+//	print_memory(&start->color, 4);
+//	print_memory(&end->color, 4);
+//	print_memory(&step_color, 4);
+//	ft_putchar('\n');
+	field = 0;
+	while (step_color > 256)
+	{
+		field += 8;
+		step_color /= 256;
+	}
+//	ft_putnbr(field);
+//	ft_putchar('\n');
+	if (delta_fast)
+		step_color /= delta_fast;
+	color = start->color;
+	if (start->color > end->color)
+		step_color *= -1;
 	
 	step_x = end->x > start->x ? 1 : -1;
 	step_y = end->y > start->y ? 1 : -1;
@@ -132,6 +155,8 @@ ft_putendl("");
 			y += step_y;
 		else
 			x += step_x;
+//		color += step_color;
+		color_incr(&color, step_color, field);
 		i += 1;
 	}
 }
@@ -222,18 +247,20 @@ int		rotate(unsigned int keycode, t_window *w)
 	t_matrix		plan;
 	
 	ft_bzero(&plan, sizeof(t_matrix));
-	/*
+	
 	ft_putstr("keycode ");
 	ft_putnbr(keycode);
 	ft_putchar('\n');
-	*/
+	
 	if (keycode == KEY_ESC)
 	{
 		mlx_destroy_window(w->mlx, w->ptr);
 		exit(0);
 	}
 	/* rotation */
-	
+
+	if (keycode != KEY_ORTHO && keycode != KEY_PERSP)
+	{
 	unsigned int		i;
 	unsigned int		j;
 
@@ -255,12 +282,19 @@ int		rotate(unsigned int keycode, t_window *w)
 		}
 		i += 1;
 	}
-
+	}
+	if (keycode == KEY_ORTHO)
+		w->proj_type = ORTHO;
+	if (keycode == KEY_PERSP)
+		w->proj_type = PERSP;
 	/* uppdate */
 	
 	if (!matrix_init(&plan, &w->vertices, VERTEX))
 		return (0);
-	matrix_apply(&plan, &w->vertices, &ortho);
+	if (w->proj_type == ORTHO)
+		matrix_apply(&plan, &w->vertices, &ortho);
+	else
+		matrix_apply(&plan, &w->vertices, &perspective);
 	matrix_free(&w->px_coord);
 	matrix_init(&w->px_coord, &plan, PIXEL);
 	img_build(&w->px_coord, &plan, w);
@@ -273,7 +307,7 @@ int		rotate(unsigned int keycode, t_window *w)
 
 int		draw_px(unsigned int keycode, t_window *w)
 {
-	int		color;
+//	int		color;
 	unsigned int		x;
 	unsigned int		y;
 
@@ -291,13 +325,13 @@ int		draw_px(unsigned int keycode, t_window *w)
 	ft_putchar('\n');
 */
 	t_pixel *this;
-	color = 0;
-	color_add(&color, 255, BLUE);
-	color_add(&color, 255, GREEN);
+//	color = 0;
+//	color_add(&color, 255, BLUE);
+//	color_add(&color, 255, GREEN);
 
 	/* print px */
 
-	
+/*	
 	y = 0;
 	while (y < w->px_coord.row_len)
 	{
@@ -316,7 +350,7 @@ int		draw_px(unsigned int keycode, t_window *w)
 		}
 		y += 1;
 	}
-	
+**/	
 
 	/* line */
 
@@ -354,7 +388,7 @@ int		draw_px(unsigned int keycode, t_window *w)
 		*/
 //			unsigned int dot = ((unsigned int)this->x * w->img.bits_px / 8) + ((unsigned int)this->y * w->img.size_line);
 			if (this->x > 0 && this->y > 0 && this->y < 750 && this->x < 750)
-				ft_memcpy(&(w->img.data[((unsigned int)this->x * w->img.bits_px / 8) + ((unsigned int)this->y * w->img.size_line)]), &color, w->img.bits_px / 8);
+				ft_memcpy(&(w->img.data[((unsigned int)this->x * w->img.bits_px / 8) + ((unsigned int)this->y * w->img.size_line)]), &this->color, w->img.bits_px / 8);
 			x += 1;
 		}
 		y += 1;

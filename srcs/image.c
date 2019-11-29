@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 01:52:05 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/29 02:59:58 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/29 06:07:49 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,30 @@ int		int_range(t_matrix *matrix, int dimension)
 	return (max - min);
 }
 
+unsigned char get_alt_color(float y, float max)
+{
+	unsigned char color;
+
+	color = (unsigned char)((y * 255) / max);
+	return (color);
+}
+
 void	img_build(t_matrix *img, t_matrix *plan, t_window *w)
 {
 	float		ratio_img;
 	float		ratio_w;
 	float		scaler;
+	float		y_min;
+	float		y_max;
 
+	y_min = matrix_get(&w->vertices, FT_INTMAX, Y, &get_min);
+	y_max = matrix_get(&w->vertices, FT_INTMIN, Y, &get_max);
+/*	
+	ft_putfloat(y_min, 5);
+	ft_putchar('\n');
+	ft_putfloat(y_max, 5);
+	ft_putchar('\n');
+*/
 	/* protect against 0 division :> */
 	ratio_img = get_range(plan, X) / get_range(plan, Y);
 	ratio_w = (w->width - 100) / (w->height - 100);
@@ -116,6 +134,7 @@ void	img_build(t_matrix *img, t_matrix *plan, t_window *w)
 	unsigned int		x;
 	t_pixel *px;
 	t_vertex *this_vertex;
+	t_vertex *this_y;
 
 	y = 0;
 	while (y < img->row_len)
@@ -125,8 +144,25 @@ void	img_build(t_matrix *img, t_matrix *plan, t_window *w)
 		{
 			px = &((t_pixel *)img->value[y])[x];
 			this_vertex = &((t_vertex *)plan->value[y])[x];
+			this_y = &((t_vertex *)w->vertices.value[y])[x];
 			px->x = (unsigned int)(this_vertex->x * scaler);
 			px->y = w->height - ((unsigned int)(this_vertex->y * scaler));
+			
+			px->color = 0;
+			color_add(&px->color, 255, GREEN);
+			color_add(&px->color, 255, BLUE);
+			color_add(&px->color, 255, RED);
+			if (this_y->y > 0)
+				color_remove(&px->color, get_alt_color(this_y->y, y_max), RED);
+			if (this_y->y < 0)
+				color_remove(&px->color, get_alt_color(this_y->y, y_min), GREEN);
+//	ft_putstr("> ");
+//	ft_putfloat(this_vertex->y, 5);
+//	ft_putchar('\n');
+//	ft_putnbr(get_alt_color(this_y->y, -1 * y_min));
+//		ft_putendl("");
+//			ft_putnbr(px->color);
+//			ft_putchar('\n');
 	//		px->y = (unsigned int)(this_vertex->y * 50);
 			x += 1;
 		}

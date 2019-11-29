@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:22:00 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/29 02:10:15 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/29 06:29:54 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ typedef struct	s_vertex
 
 typedef struct	s_pixel
 {
-	int	x;
-	int	y;
-	int				color;
+	int		x;
+	int		y;
+	int		color;
 }				t_pixel;
 
 typedef struct 	s_img
@@ -69,6 +69,9 @@ typedef struct 	s_img
 	int		endian;
 }				t_img;
 
+# define ORTHO	0
+# define PERSP	1
+
 typedef	struct	s_window
 {
 	void			*ptr;
@@ -76,6 +79,7 @@ typedef	struct	s_window
 	t_img			img;
 	t_matrix		px_coord;
 	t_matrix		vertices;
+	unsigned char	proj_type;
 	unsigned int	width;
 	unsigned int	height;
 	char			name[32];
@@ -129,6 +133,7 @@ void			print_this(t_vertex *this, t_vertex *nullit);
 
 void			img_build(t_matrix *img, t_matrix *plan, t_window *w);
 void			color_add(int *color, unsigned char value, unsigned char field);
+void			color_incr(int *color, unsigned char value, unsigned char field);
 void			color_remove(int *color, unsigned char value,
 					unsigned char field);
 int				draw_px(unsigned int keycode, t_window *w);
