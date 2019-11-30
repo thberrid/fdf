@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 01:52:05 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/29 06:07:49 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/30 07:45:35 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,12 @@ void	img_build(t_matrix *img, t_matrix *plan, t_window *w)
 	float		scaler;
 	float		y_min;
 	float		y_max;
+	float		y_median;
 
 	y_min = matrix_get(&w->vertices, FT_INTMAX, Y, &get_min);
 	y_max = matrix_get(&w->vertices, FT_INTMIN, Y, &get_max);
+	y_median = y_min + ((y_max - y_min) / 2);
+
 /*	
 	ft_putfloat(y_min, 5);
 	ft_putchar('\n');
@@ -152,10 +155,16 @@ void	img_build(t_matrix *img, t_matrix *plan, t_window *w)
 			color_add(&px->color, 255, GREEN);
 			color_add(&px->color, 255, BLUE);
 			color_add(&px->color, 255, RED);
-			if (this_y->y > 0)
-				color_remove(&px->color, get_alt_color(this_y->y, y_max), RED);
-			if (this_y->y < 0)
-				color_remove(&px->color, get_alt_color(this_y->y, y_min), GREEN);
+			if (this_y->y > y_median)
+			{
+				color_remove(&px->color, get_alt_color(this_y->y - y_median, y_max - y_min), RED);
+//				ft_putendl("ici");
+			}
+			if (this_y->y < y_median)
+			{
+				color_remove(&px->color, get_alt_color(y_median + this_y->y, y_max - y_min), GREEN);
+//				ft_putendl("la");
+			}
 //	ft_putstr("> ");
 //	ft_putfloat(this_vertex->y, 5);
 //	ft_putchar('\n');
@@ -170,7 +179,7 @@ void	img_build(t_matrix *img, t_matrix *plan, t_window *w)
 	}
 
 
-	/* shift */
+	/* centering img */
 
 	int		shift_x;
 	int		shift_y;

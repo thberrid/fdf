@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:22:00 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/29 06:29:54 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/30 08:03:47 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct	s_vertex
 */
 
 /*
-**	ALPHA		 (0 <-> 255)  ==  (100% <-> 0% OPACITY)
+**	ALPHA		 (0 <-> 255)  ==  (VISIBLE <-> UNVISIBLE)
 */
 
 # define RED	16
@@ -134,6 +134,7 @@ void			print_this(t_vertex *this, t_vertex *nullit);
 void			img_build(t_matrix *img, t_matrix *plan, t_window *w);
 void			color_add(int *color, unsigned char value, unsigned char field);
 void			color_incr(int *color, unsigned char value, unsigned char field);
+void			color_decr(int *color, unsigned char value, unsigned char field);
 void			color_remove(int *color, unsigned char value,
 					unsigned char field);
 int				draw_px(unsigned int keycode, t_window *w);

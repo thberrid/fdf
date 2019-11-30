@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:20:17 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/29 07:33:59 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/30 08:26:50 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,15 @@ void	draw_line(t_pixel *start, t_pixel *end, t_img *img)
 	int delta_y;
 	int step_x;
 	int step_y;
-	int	step_color;
+	unsigned int step_color;
+	float 	step_red;
+	float	step_green;
 	unsigned int x;
 	unsigned int y;
 	int			color;
 	float		error;
 	unsigned int	i;
-	unsigned char field;
+//	unsigned char field;
 //	unsigned char value;
 
 	i = 0;
@@ -57,27 +59,60 @@ void	draw_line(t_pixel *start, t_pixel *end, t_img *img)
 	delta_fast = delta_x > delta_y ? delta_x : delta_y;
 	delta_slow = delta_x < delta_y ? delta_x : delta_y;
 
-	step_color = 0;
+	step_red = 0;
+	step_green = 0;
 
 	step_color = start->color ^ end->color;
-//	print_memory(&start->color, 4);
-//	print_memory(&end->color, 4);
-//	print_memory(&step_color, 4);
-//	ft_putchar('\n');
-	field = 0;
+//	step_color = start->color - end->color;
+	print_memory(&start->color, 4);
+	print_memory(&end->color, 4);
+	print_memory(&step_color, 4);
+	ft_putchar('\n');
+//	field = 0;
+	
+	unsigned char red;
+	unsigned char green;
+	red = step_color >> 8;
+	green = step_color >> 16;
+	if (red && delta_fast)
+		step_red = (float)red / delta_fast;
+	if (green && delta_fast)
+		step_green = (float)green / delta_fast;
+/*	if (!step_red)
+		step_red = 1;
+	if (!step_green)
+		step_green = 1;
+*/	ft_putstr("delta ");
+	ft_putnbr(delta_fast);
+	ft_putstr("\nstep ");
+	ft_putfloat(step_red, 5);
+	ft_putstr("\nred ");
+	ft_putnbr(red);
+	ft_putchar('\n');
+	print_memory(&red, 1);
+	print_memory(&green, 1);
+	ft_putchar('\n');
+	/*
+	if (step_color << 16)
+		ft_putendl("!");
+	if (step_color >> 16)
+		ft_putendl("?");
+	*/
+	/*
 	while (step_color > 256)
 	{
 		field += 8;
 		step_color /= 256;
 	}
+	*/
 //	ft_putnbr(field);
 //	ft_putchar('\n');
-	if (delta_fast)
+/*	if (delta_fast)
 		step_color /= delta_fast;
-	color = start->color;
 	if (start->color > end->color)
 		step_color *= -1;
-	
+*/	
+	color = start->color;
 	step_x = end->x > start->x ? 1 : -1;
 	step_y = end->y > start->y ? 1 : -1;
 /*	
@@ -155,8 +190,39 @@ ft_putendl("");
 			y += step_y;
 		else
 			x += step_x;
-//		color += step_color;
-		color_incr(&color, step_color, field);
+
+		if (step_green < 1)
+			step_green += (float)green / delta_fast;
+		if (step_red < 1)
+			step_red += (float)red / delta_fast;
+		step_color = color ^ end->color;
+
+		if (start->y > end->y)
+		{
+			if (green && color != end->color)
+				color_decr(&color, (unsigned char)step_green, RED);
+			if (red && color != end->color)
+				color_incr(&color, (unsigned char)step_red, GREEN);
+		}
+		else
+		{
+			if (green && color != end->color)
+				color_incr(&color, (unsigned char)step_green, RED);
+			if (red && color != end->color)
+				color_decr(&color, (unsigned char)step_red, GREEN);
+
+		}
+		if (step_green > 1)
+			step_green = (float)green / delta_fast;
+		if (step_red > 1)
+			step_red = (float)red / delta_fast;
+			
+		if (green)
+		{
+		//	ft_putnbr((unsigned char)step_red);
+		//	ft_putendl("");
+			print_memory(&color, 4);
+		}
 		i += 1;
 	}
 }
