@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:20:17 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/30 08:26:50 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/11/30 08:32:50 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,25 +190,28 @@ ft_putendl("");
 			y += step_y;
 		else
 			x += step_x;
+	
+		step_color = color ^ end->color;
+	red = step_color >> 8;
+	green = step_color >> 16;
 
 		if (step_green < 1)
 			step_green += (float)green / delta_fast;
 		if (step_red < 1)
 			step_red += (float)red / delta_fast;
-		step_color = color ^ end->color;
 
 		if (start->y > end->y)
 		{
-			if (green && color != end->color)
+			if (green)
 				color_decr(&color, (unsigned char)step_green, RED);
-			if (red && color != end->color)
+			if (red)
 				color_incr(&color, (unsigned char)step_red, GREEN);
 		}
 		else
 		{
-			if (green && color != end->color)
+			if (green)
 				color_incr(&color, (unsigned char)step_green, RED);
-			if (red && color != end->color)
+			if (red)
 				color_decr(&color, (unsigned char)step_red, GREEN);
 
 		}
