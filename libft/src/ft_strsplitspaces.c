@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 06:23:20 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/15 06:27:46 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/02 05:26:29 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char			**ft_strsplitspaces(char const *s)
 	size_t	count_word;
 
 	count_word = ft_countword(s);
-	new_array = (char **)malloc(sizeof(char *) * count_word + 1);
+	new_array = (char **)ft_memalloc(sizeof(char *) * (count_word + 1));
 	if (new_array)
 	{
 		new_array[count_word] = 0;
