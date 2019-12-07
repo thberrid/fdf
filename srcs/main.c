@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:20:17 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 12:00:16 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 12:03:49 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ void	clean_w(t_window *w)
 	mlx_destroy_window(w->mlx, w->ptr);
 }
 
+/*
+** to search leaks, put before the exit = system("leaks fdf");
+*/
+
 int		get_keypressed(unsigned int keycode, t_window *w)
 {
 	matrix_free(&w->plan);
@@ -26,7 +30,6 @@ int		get_keypressed(unsigned int keycode, t_window *w)
 	if (keycode == KEY_ESC || keycode == KEY_Q)
 	{
 		clean_w(w);
-		system("leaks fdf");
 		exit(0);
 	}
 	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
