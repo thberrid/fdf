@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:22:00 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 09:56:45 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 12:01:20 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef	struct	s_window
 	unsigned int	width;
 	unsigned int	height;
 	char			name[32];
+	t_matrix		plan;
 }				t_window;
 
 /*
@@ -122,6 +123,7 @@ void			print_this(t_vertex *this, t_vertex *nullit);
 void			matrix_transform(t_matrix *scale, t_vertex *vertices);
 int				vertices_scale(t_matrix *vertices, float coef);
 int				vertices_auto_adjust_scale(t_window *w, t_matrix *plan);
+int				malloc_matrix(t_matrix *matrix);
 
 /*
 **	DRAWING

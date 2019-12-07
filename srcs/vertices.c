@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 03:33:34 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 08:52:03 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 10:34:44 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int		vertices_auto_adjust_scale(t_window *w, t_matrix *plan)
 	}
 	while (!vertices_compare(w, plan, f))
 	{
-		vertices_scale(&w->vertices, coef);
+		if (!vertices_scale(&w->vertices, coef))
+			return (0);
 		matrix_apply(plan, &w->vertices, &ortho);
 	}
 	return (1);

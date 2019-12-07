@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/07 06:27:27 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 09:51:41 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 12:01:45 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,10 @@
 
 int		set_rotation_angle(t_matrix *matrix, double theta)
 {
-	unsigned int		i;
 	t_vertex			*this;
 
-	if (!(matrix->value = ft_memalloc(sizeof(void *) * matrix->row_len)))
+	if (!malloc_matrix(matrix))
 		return (0);
-	i = 0;
-	while (i < matrix->row_len)
-	{
-		if (!(matrix->value[i] = ft_memalloc(sizeof(t_vertex) * matrix->column_len)))
-			return (0);
-		i += 1;
-	}
 	this = &((t_vertex *)matrix->value[0])[0];
 	this->x = (float)cos(theta);
 	this->y = 0;
@@ -44,18 +36,10 @@ int		set_rotation_angle(t_matrix *matrix, double theta)
 
 int		set_scale(t_matrix *matrix, float coef)
 {
-	unsigned int	i;
 	t_vertex		*this;
 
-	if (!(matrix->value = ft_memalloc(sizeof(void *) * matrix->row_len)))
+	if (!malloc_matrix(matrix))
 		return (0);
-	i = 0;
-	while (i < matrix->row_len)
-	{
-		if (!(matrix->value[i] = ft_memalloc(sizeof(t_vertex) * matrix->column_len)))
-			return (0);
-		i += 1;
-	}
 	this = &((t_vertex *)matrix->value[0])[0];
 	this->x = coef;
 	this->y = 0;
@@ -101,7 +85,8 @@ int		vertices_scale(t_matrix *vertices, float coef)
 	ft_bzero(&scale, sizeof(t_matrix));
 	scale.row_len = 1;
 	scale.column_len = 3;
-	set_scale(&scale, coef);
+	if (!set_scale(&scale, coef))
+		return (0);
 	i = 0;
 	while (i < vertices->row_len)
 	{
@@ -113,6 +98,7 @@ int		vertices_scale(t_matrix *vertices, float coef)
 		}
 		i += 1;
 	}
+	matrix_free(&scale);
 	return (1);
 }
 
@@ -137,4 +123,5 @@ void	vertices_rotate(t_window *w, unsigned int keycode)
 		}
 		i += 1;
 	}
+	matrix_free(&rot);
 }

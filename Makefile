@@ -6,7 +6,7 @@
 #    By: thberrid <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/29 19:26:47 by thberrid          #+#    #+#              #
-#    Updated: 2019/12/07 10:00:10 by thberrid         ###   ########.fr        #
+#    Updated: 2019/12/07 10:50:31 by thberrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,11 +47,11 @@ FLAGS	= -Wall -Wextra -Werror -g
 all : $(NAME)
 
 $(NAME) : $(FILES_O) $(FILES_H) $(LIBFT) $(MLX)
-	gcc -fsanitize=address -I ./$(DIR_H) -I ./libft/includes -I ./minilibx/ -L ./libft/ -lft $(MLX) -o $(NAME) $(FILES_O)
+	gcc -I ./$(DIR_H) -I ./libft/includes -I ./minilibx/ -L ./libft/ -lft $(MLX) -o $(NAME) $(FILES_O)
  
 $(DIR_O)/%.o : $(DIR_C)/%.c $(FILES_H)
 	@ mkdir -p $(DIR_O)
-	gcc $(FLAGS) -fsanitize=address -I ./$(DIR_H) -I ./libft/includes -I ./minilibx -c -o $@ $<
+	gcc $(FLAGS) -I ./$(DIR_H) -I ./libft/includes -I ./minilibx -c -o $@ $<
 
 $(LIBFT) :
 	make -C ./libft/
