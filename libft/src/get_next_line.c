@@ -6,13 +6,13 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 12:42:02 by thberrid          #+#    #+#             */
-/*   Updated: 2019/05/31 23:16:30 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 14:48:39 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-# define BUFF_SIZEGNL 1
+#define BUFF_SIZEGNL 1
 
 char		*ft_fill_line(char *s, char **line)
 {

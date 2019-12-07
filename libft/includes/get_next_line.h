@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 09:56:51 by thberrid          #+#    #+#             */
-/*   Updated: 2019/05/30 18:19:30 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 14:46:44 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 
 typedef struct	s_buf
 {
-	char 	arr[BUFF_SIZE];
+	char	arr[BUFF_SIZE];
 	int		len;
 }				t_buf;
 
-int		get_next_line(const int fd, char **line);
+int				get_next_line(const int fd, char **line);
 
 #endif

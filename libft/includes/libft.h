@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 12:57:04 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/20 02:25:37 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 14:47:25 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # define FT_INTMIN -2147483648
 # define FT_BYTSIZE 8
 # define FT_ERROR -1
-# define FT_UNUSED(x) (void)(x)
 
 typedef struct	s_list
 {
