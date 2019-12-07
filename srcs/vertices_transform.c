@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/07 06:27:27 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 12:01:45 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 12:29:43 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int		vertices_scale(t_matrix *vertices, float coef)
 	return (1);
 }
 
-void	vertices_rotate(t_window *w, unsigned int keycode)
+int		vertices_rotate(t_window *w, unsigned int keycode)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -111,7 +111,8 @@ void	vertices_rotate(t_window *w, unsigned int keycode)
 	ft_bzero(&rot, sizeof(t_matrix));
 	rot.row_len = 1;
 	rot.column_len = 3;
-	set_rotation_angle(&rot, keycode == KEY_LEFT ? -25 : 25);
+	if (!set_rotation_angle(&rot, keycode == KEY_LEFT ? -25 : 25))
+		return (0);
 	i = 0;
 	while (i < w->vertices.row_len)
 	{
@@ -124,4 +125,5 @@ void	vertices_rotate(t_window *w, unsigned int keycode)
 		i += 1;
 	}
 	matrix_free(&rot);
+	return (1);
 }

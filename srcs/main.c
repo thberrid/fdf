@@ -6,17 +6,18 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:20:17 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 12:03:49 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 12:33:31 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 
-void	clean_w(t_window *w)
+void	clean_w_and_exit(t_window *w)
 {
 	matrix_free(&w->vertices);
 	mlx_destroy_image(w->mlx, w->img.id);
 	mlx_destroy_window(w->mlx, w->ptr);
+	exit(0);
 }
 
 /*
@@ -28,14 +29,13 @@ int		get_keypressed(unsigned int keycode, t_window *w)
 	matrix_free(&w->plan);
 	matrix_free(&w->px_coord);
 	if (keycode == KEY_ESC || keycode == KEY_Q)
-	{
-		clean_w(w);
-		exit(0);
-	}
+		clean_w_and_exit(w);
 	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
-		vertices_rotate(w, keycode);
+		if (!vertices_rotate(w, keycode))
+			return (0);
 	if (keycode == KEY_TOP || keycode == KEY_BOTTOM)
-		vertices_scale(&w->vertices, (keycode == KEY_BOTTOM) ? .75 : 1.25);
+		if (!vertices_scale(&w->vertices, (keycode == KEY_BOTTOM) ? .75 : 1.25))
+			return (0);
 	if (!matrix_init(&w->plan, &w->vertices, sizeof(t_vertex)))
 		return (0);
 	if (w->proj_type == ORTHO)
@@ -71,13 +71,17 @@ int		main(int ac, char **av)
 	t_window		w;
 
 	window_init(&w);
-	if (ac == 2 && map_parse(&(w.vertices), av[1]))
+	if (ac == 2)
 	{
-		if (!matrix_init(&w.plan, &(w.vertices), sizeof(t_vertex)))
+		if (!map_parse(&(w.vertices), av[1]))
+			return (0);
+		if (!matrix_init(&w.plan, &(w.vertices), sizeof(t_vertex))
+			|| !w.vertices.row_len)
 			return (0);
 		if (!vertices_auto_adjust_scale(&w, &w.plan))
 			return (0);
-		matrix_init(&w.px_coord, &w.plan, sizeof(t_pixel));
+		if (!matrix_init(&w.px_coord, &w.plan, sizeof(t_pixel)))
+			return (0);
 		img_build(&w.px_coord, &w.plan, &w);
 		img_centering(&w.px_coord, &w);
 		print_usage();

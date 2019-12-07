@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:22:00 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 12:01:20 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 12:30:11 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int				set_rotation_angle(t_matrix *matrix, double theta);
 int				set_scale(t_matrix *matrix, float coef);
 void			matrix_transform(t_matrix *rot, t_vertex *vertices);
 int				vertices_scale(t_matrix *vertices, float coef);
-void			vertices_rotate(t_window *w, unsigned int keycode);
+int				vertices_rotate(t_window *w, unsigned int keycode);
 
 void			foreach_edges_draw(t_img *img, t_window *w);
 void			draw_edges(t_img *img, t_matrix *pixels, unsigned int x,
