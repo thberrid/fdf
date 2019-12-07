@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/07 06:27:27 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 12:29:43 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 22:30:20 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,48 @@ int		set_rotation_angle(t_matrix *matrix, double theta)
 	this->x = (float)sin(theta);
 	this->y = 0;
 	this->z = (float)cos(theta);
+	return (1);
+}
+
+int		set_rotation_look(t_matrix *matrix, double theta)
+{
+	t_vertex			*this;
+
+	if (!malloc_matrix(matrix))
+		return (0);
+	this = &((t_vertex *)matrix->value[0])[0];
+	this->x = 1;
+	this->y = 0;
+	this->z = 0;
+	this = &((t_vertex *)matrix->value[0])[1];
+	this->x = 0;
+	this->y = (float)(cos(theta));
+	this->z = (float)(sin(theta));
+	this = &((t_vertex *)matrix->value[0])[2];
+	this->x = 0;
+	this->y = (float)(-1 * sin(theta));
+	this->z = (float)(cos(theta));
+	return (1);
+}
+
+int		set_rotation_look2(t_matrix *matrix, double theta)
+{
+	t_vertex			*this;
+
+	if (!malloc_matrix(matrix))
+		return (0);
+	this = &((t_vertex *)matrix->value[0])[0];
+	this->x = (float)cos(theta);
+	this->y = (float)(sin(theta));
+	this->z = 0;
+	this = &((t_vertex *)matrix->value[0])[1];
+	this->x = (float)(-1 * sin(theta));
+	this->y = (float)(cos(theta));
+	this->z = 0;
+	this = &((t_vertex *)matrix->value[0])[2];
+	this->x = 0;
+	this->y = 0;
+	this->z = 1;
 	return (1);
 }
 
@@ -124,6 +166,64 @@ int		vertices_rotate(t_window *w, unsigned int keycode)
 		}
 		i += 1;
 	}
+	matrix_free(&rot);
+	return (1);
+}
+
+int		vertices_lookat(t_window *w)
+{
+	unsigned int	i;
+	unsigned int	j;
+	t_matrix		rot;
+
+	ft_bzero(&rot, sizeof(t_matrix));
+	rot.row_len = 1;
+	rot.column_len = 3;
+	
+	if (!set_rotation_look(&rot, -0.5))
+		return (0);
+	
+	i = 0;
+	while (i < w->vertices.row_len)
+	{
+		j = 0;
+		while (j < w->vertices.column_len)
+		{
+			matrix_transform(&rot, &((t_vertex *)w->vertices.value[i])[j]);
+			j += 1;
+		}
+		i += 1;
+	}
+	
+
+
+	i = 0;
+	set_rotation_look2(&rot, -0.5);
+	while (i < w->vertices.row_len)
+	{
+		j = 0;
+		while (j < w->vertices.column_len)
+		{
+			matrix_transform(&rot, &((t_vertex *)w->vertices.value[i])[j]);
+			j += 1;
+		}
+		i += 1;
+	}
+	
+	
+	i = 0;
+	set_rotation_angle(&rot, -0.5);
+	while (i < w->vertices.row_len)
+	{
+		j = 0;
+		while (j < w->vertices.column_len)
+		{
+			matrix_transform(&rot, &((t_vertex *)w->vertices.value[i])[j]);
+			j += 1;
+		}
+		i += 1;
+	}
+	
 	matrix_free(&rot);
 	return (1);
 }

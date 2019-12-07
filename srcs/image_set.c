@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/07 08:29:34 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 08:40:57 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 13:58:01 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,11 @@ void	img_build(t_matrix *img, t_matrix *plan, t_window *w)
 		while ((unsigned int)index.x < img->column_len)
 		{
 			px = &((t_pixel *)img->value[index.y])[index.x];
-			this_vertex = &((t_vertex *)plan->value[index.y])[index.x];
 			px->color = 0;
+			this_vertex = &((t_vertex *)plan->value[index.y])[index.x];
 			color_setwhite(&px->color);
-			color_set(&min, &max, px, this_vertex);
+			color_set(&min, &max, px,
+				&((t_vertex *)w->vertices.value[index.y])[index.x]);
 			px->x = (unsigned int)(this_vertex->x);
 			px->y = w->height - ((unsigned int)(this_vertex->y));
 			index.x += 1;

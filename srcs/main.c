@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:20:17 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 12:33:31 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 22:47:17 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ int		get_keypressed(unsigned int keycode, t_window *w)
 {
 	matrix_free(&w->plan);
 	matrix_free(&w->px_coord);
+	if (keycode == KEY_PERSP)
+		w->proj_type = PERSP;
+	if (keycode == KEY_ORTHO)
+		w->proj_type = ORTHO;
 	if (keycode == KEY_ESC || keycode == KEY_Q)
 		clean_w_and_exit(w);
 	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
@@ -41,10 +45,16 @@ int		get_keypressed(unsigned int keycode, t_window *w)
 	if (w->proj_type == ORTHO)
 		matrix_apply(&w->plan, &w->vertices, &ortho);
 	else
+	{
 		matrix_apply(&w->plan, &w->vertices, &perspective);
+//		if (keycode == KEY_PERSP)
+//			vertices_auto_adjust_scale(w, &w->plan);
+	}
 	if (!matrix_init(&w->px_coord, &w->plan, sizeof(t_pixel)))
 		return (0);
 	img_build(&w->px_coord, &w->plan, w);
+	if (w->proj_type == PERSP)
+		img_scaling(&w->px_coord, &w->plan, w);
 	if (!ft_ischarset(keycode + 1, KEYS_TRANSLATION))
 		img_centering(&w->px_coord, w);
 	draw_obj(w);
@@ -63,7 +73,36 @@ void	window_init(t_window *w)
 	ft_bzero(w, sizeof(t_window));
 	w->width = 750;
 	w->height = 750;
+	w->proj_type = PERSP;
 	ft_strcpy(w->name, "ok boomer");
+}
+
+void	vertex_remove_null(t_matrix *vertices)
+{
+	t_vertex	min;
+
+	min.x = matrix_get(vertices, FT_INTMAX, X, &get_min);
+	/*
+	if (min.x < 0)
+		min.x *= -1;
+	if (!min.x)
+		min.x = 1;
+		*/
+	min.x = 10;
+	min.z = 0;
+	min.y = matrix_get(vertices, FT_INTMIN, Y, &get_max);
+	if (min.y > 0)
+		min.y *= -2;
+	if (!min.y)
+		min.y = -10;
+	/*
+	min.z = matrix_get(vertices, FT_INTMAX, Z, &get_min);
+	if (min.z < 0)
+		min.z *= -1;
+	if (!min.z)
+		min.z = 1;
+	*/
+	matrix_set(vertices, &min, &vertex_increment);
 }
 
 int		main(int ac, char **av)
@@ -78,11 +117,16 @@ int		main(int ac, char **av)
 		if (!matrix_init(&w.plan, &(w.vertices), sizeof(t_vertex))
 			|| !w.vertices.row_len)
 			return (0);
-		if (!vertices_auto_adjust_scale(&w, &w.plan))
-			return (0);
+		vertex_remove_null(&w.vertices);	
+		vertices_lookat(&w);
+		matrix_apply(&w.plan, &w.vertices, &perspective);
+//		if (!vertices_auto_adjust_scale(&w, &w.plan))
+//			return (0);
 		if (!matrix_init(&w.px_coord, &w.plan, sizeof(t_pixel)))
 			return (0);
 		img_build(&w.px_coord, &w.plan, &w);
+		if (w.proj_type == PERSP)
+			img_scaling(&w.px_coord, &w.plan, &w);
 		img_centering(&w.px_coord, &w);
 		print_usage();
 		w.mlx = mlx_init();

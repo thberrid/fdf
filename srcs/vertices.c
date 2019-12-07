@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 03:33:34 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 10:34:44 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 20:53:02 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,13 @@ int		vertices_auto_adjust_scale(t_window *w, t_matrix *plan)
 	float	coef;
 	int		(*f)(float, float, t_window *);
 
-	matrix_apply(plan, &w->vertices, &ortho);
+	if (w->proj_type == ORTHO)
+		matrix_apply(plan, &w->vertices, &ortho);
+	else
+	{
+		ft_putendl("-----\n---\n----\n---\n-----");
+		matrix_apply(plan, &w->vertices, &perspective);
+	}
 	coef = 2;
 	f = &is_bigger;
 	if (vertices_compare(w, plan, is_bigger))
@@ -58,7 +64,10 @@ int		vertices_auto_adjust_scale(t_window *w, t_matrix *plan)
 	{
 		if (!vertices_scale(&w->vertices, coef))
 			return (0);
-		matrix_apply(plan, &w->vertices, &ortho);
+		if (w->proj_type == ORTHO)
+			matrix_apply(plan, &w->vertices, &ortho);
+		else
+			matrix_apply(plan, &w->vertices, &perspective);
 	}
 	return (1);
 }

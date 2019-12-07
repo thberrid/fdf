@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/07 06:21:41 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 06:38:41 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 14:05:37 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ void	bresen_init_stepcolor(unsigned int delta_fast, t_pixel *pen,
 
 	step_color = start->color ^ end->color;
 	if ((step_color >> 8) && delta_fast)
-		pen->step_red = (float)(step_color >> 8) / delta_fast;
+		pen->step_red = (float)((unsigned char)(step_color >> 8)) / delta_fast;
 	if ((step_color >> 16) && delta_fast)
-		pen->step_green = (float)(step_color >> 16) / delta_fast;
+		pen->step_green = (float)((unsigned char)(step_color >> 16))
+			/ delta_fast;
 }
 
 void	bresen_increm_color(t_pixel *start, t_pixel *end, t_pixel *pen,

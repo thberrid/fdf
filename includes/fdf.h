@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:22:00 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 12:30:11 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 23:07:45 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct	s_pixel
 	int		color;
 	float	step_red;
 	float	step_green;
+	float	step_alpha;
 }				t_pixel;
 
 typedef struct	s_img
@@ -79,6 +80,7 @@ typedef	struct	s_window
 	t_img			img;
 	t_matrix		px_coord;
 	t_matrix		vertices;
+	t_matrix		camera;
 	unsigned char	proj_type;
 	unsigned int	width;
 	unsigned int	height;
@@ -173,6 +175,7 @@ int				draw_obj(t_window *w);
 **	PROJECTIONS
 */
 
+int				vertices_lookat(t_window *w);
 void			perspective(t_vertex *map, t_vertex *vertices);
 void			ortho(t_vertex *map, t_vertex *vertices);
 int				get_dimension(int dimension, t_pixel *px);
