@@ -6,11 +6,39 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/07 06:31:16 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 06:51:54 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 13:39:04 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
+
+void	set_background(t_img *img)
+{
+	t_pixel pen;
+
+	pen.color = 0;
+	color_add(&pen.color, 35, RED);
+	color_add(&pen.color, 37, GREEN);
+	color_add(&pen.color, 40, BLUE);
+	pen.y = 0;
+	while (pen.y < img->height)
+	{
+		pen.x = 0;
+		while (pen.x < img->width)
+		{
+			ft_memcpy(&(img->data[(pen.x * img->bits_px / 8)\
+				+ (pen.y * img->size_line)]), &pen.color, img->bits_px / 8);
+			pen.x += 1;
+		}
+		if (pen.y > 250 && !(pen.y % 25))
+		{
+			color_decr(&pen.color, 1, RED);
+			color_decr(&pen.color, 1, GREEN);
+			color_decr(&pen.color, 1, BLUE);
+		}
+		pen.y += 1;
+	}
+}
 
 int		draw_obj(t_window *w)
 {
@@ -22,6 +50,7 @@ int		draw_obj(t_window *w)
 		&next_img.size_line, &next_img.endian);
 	next_img.height = w->height;
 	next_img.width = w->width;
+	set_background(&next_img);
 	foreach_edges_draw(&next_img, w);
 	if (w->img.id)
 		mlx_destroy_image(w->mlx, w->img.id);
