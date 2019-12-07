@@ -6,17 +6,18 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:35:36 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/25 02:27:41 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 08:48:41 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 
-static float	get_padding(float value, t_vertex *new_vertex, unsigned char dimension)
+static float	get_padding(float value, t_vertex *new_vertex,
+	unsigned char dimension)
 {
 	int		padding;
 	float	new_value;
-	
+
 	new_value = new_vertex->x;
 	if (dimension == Y)
 		new_value = new_vertex->y;

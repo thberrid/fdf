@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 07:42:57 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/27 05:04:56 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 09:50:40 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int			matrix_extend(t_matrix *matrix)
 	unsigned int	row_n;
 	void			**new_value;
 
-	new_value = ft_memalloc(PTR * (matrix->row_len + 1));
+	new_value = ft_memalloc(sizeof(void *) * (matrix->row_len + 1));
 	if (!new_value)
 		return (0);
 	row_n = 0;

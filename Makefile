@@ -6,7 +6,7 @@
 #    By: thberrid <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/29 19:26:47 by thberrid          #+#    #+#              #
-#    Updated: 2019/11/27 01:56:20 by thberrid         ###   ########.fr        #
+#    Updated: 2019/12/07 10:00:10 by thberrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,13 @@ DIR_C 	= srcs
 DIR_O	= obj
 DIR_H	= includes
 NAME_C	= main.c \
+		  bresenham_color.c \
+		  bresenham_position.c \
 		  colors.c \
+		  draw.c \
 		  image.c \
+		  image_get.c \
+		  image_set.c \
 		  map_parse.c \
 		  map_print.c \
 		  matrix.c \
@@ -25,7 +30,10 @@ NAME_C	= main.c \
 		  matrix_free.c \
 		  projection_persp.c \
 		  projection_ortho.c \
-		  vertex.c
+		  raw.c \
+		  vertex.c \
+		  vertices.c \
+		  vertices_transform.c
 NAME_O	= $(NAME_C:.c=.o)
 NAME_H	= fdf.h \
 		  keycodes.h
@@ -39,11 +47,11 @@ FLAGS	= -Wall -Wextra -Werror -g
 all : $(NAME)
 
 $(NAME) : $(FILES_O) $(FILES_H) $(LIBFT) $(MLX)
-	gcc -I ./$(DIR_H) -I ./libft/includes -I ./minilibx/ -L ./libft/ -lft $(MLX) -o $(NAME) $(FILES_O)
+	gcc -fsanitize=address -I ./$(DIR_H) -I ./libft/includes -I ./minilibx/ -L ./libft/ -lft $(MLX) -o $(NAME) $(FILES_O)
  
 $(DIR_O)/%.o : $(DIR_C)/%.c $(FILES_H)
 	@ mkdir -p $(DIR_O)
-	gcc $(FLAGS) -I ./$(DIR_H) -I ./libft/includes -I ./minilibx -c -o $@ $<
+	gcc $(FLAGS) -fsanitize=address -I ./$(DIR_H) -I ./libft/includes -I ./minilibx -c -o $@ $<
 
 $(LIBFT) :
 	make -C ./libft/

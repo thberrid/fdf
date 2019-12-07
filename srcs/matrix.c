@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:33:53 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/29 02:33:12 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 09:51:58 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	matrix_cpy(t_matrix *dest, t_matrix *src, t_vertex *vector,
 		j = 0;
 		while (j < src->column_len)
 		{
-			f(&((t_vertex *)dest->value[i])[j], &((t_vertex *)src->value[i])[j], vector);
+			f(&((t_vertex *)dest->value[i])[j],
+				&((t_vertex *)src->value[i])[j], vector);
 			j += 1;
 		}
 		i += 1;
@@ -91,7 +92,8 @@ void	matrix_apply(t_matrix *vertices, t_matrix *vectors,
 ** AND RETURN VALUE DEPENDING A *FUNCTION
 */
 
-float	matrix_get(t_matrix *vertices, float value, unsigned char dimension, float (*f)(float, t_vertex *, unsigned char))
+float	matrix_get(t_matrix *vertices, float value, unsigned char dimension,
+	float (*f)(float, t_vertex *, unsigned char))
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -122,7 +124,7 @@ int		matrix_init(t_matrix *new, t_matrix *src, unsigned char type)
 	i = 0;
 	new->row_len = src->row_len;
 	new->column_len = src->column_len;
-	if (!(new->value = ft_memalloc(PTR * src->row_len)))
+	if (!(new->value = ft_memalloc(sizeof(void *) * src->row_len)))
 		return (0);
 	while (i < src->row_len)
 	{

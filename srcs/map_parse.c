@@ -6,37 +6,14 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 03:48:01 by thberrid          #+#    #+#             */
-/*   Updated: 2019/11/27 06:49:04 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/07 09:46:14 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 #include <fcntl.h>
 
-static void			raw_free(char **raw)
-{
-	int		i;
-
-	i = 0;
-	while (raw[i])
-	{
-		ft_memdel((void **)&raw[i]);
-		i += 1;
-	}
-	ft_memdel((void **)&raw);
-}
-
-unsigned int		raw_len(char **raw)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (raw[i])
-		i += 1;
-	return (i);
-}
-
-float				get_min(float value, t_vertex *new_vertex, unsigned char dimension)
+float		get_min(float value, t_vertex *new_vertex, unsigned char dimension)
 {
 	float new_value;
 
@@ -50,10 +27,10 @@ float				get_min(float value, t_vertex *new_vertex, unsigned char dimension)
 	return (value);
 }
 
-float				get_max(float value, t_vertex *new_vertex, unsigned char dimension)
+float		get_max(float value, t_vertex *new_vertex, unsigned char dimension)
 {
 	float new_value;
-	
+
 	new_value = new_vertex->x;
 	if (dimension == Y)
 		new_value = new_vertex->y;
@@ -64,14 +41,10 @@ float				get_max(float value, t_vertex *new_vertex, unsigned char dimension)
 	return (value);
 }
 
-static void			map_reindex_z(t_matrix *vertices)
+static void	map_reindex_z(t_matrix *vertices)
 {
 	t_vertex	vector;
 
-/*	vector.x = vertices->column_len * 5;
-	vector.y = get_range(vertices, Y) + 5;
-	vector.z = vertices->row_len;
-*/
 	vector.x = 0;
 	vector.y = 0;
 	vector.z = vertices->row_len;
@@ -82,7 +55,7 @@ static void			map_reindex_z(t_matrix *vertices)
 **	CONVERT FILE INTO MATRIX OF VERTICES
 */
 
-int					map_parse(t_matrix *vertices, char *path)
+int			map_parse(t_matrix *vertices, char *path)
 {
 	int				fd;
 	int				retrn;
@@ -95,7 +68,7 @@ int					map_parse(t_matrix *vertices, char *path)
 	line = NULL;
 	line_n = 0;
 	ft_bzero(vertices, sizeof(t_matrix));
-	vertices->type = VERTEX;
+	vertices->type = sizeof(t_vertex);
 	while ((retrn = get_next_line(fd, &line)))
 	{
 		if (retrn < 0 || !(raw = ft_strsplitspaces(line)))
@@ -107,7 +80,6 @@ int					map_parse(t_matrix *vertices, char *path)
 		raw_free(raw);
 		line_n += 1;
 	}
-//	if (0)
 	map_reindex_z(vertices);
 	return (1);
 }
