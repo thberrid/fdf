@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 05:39:44 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 23:06:03 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/08 21:01:08 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void		perspective(t_vertex *dest, t_vertex *src)
 	dest->x = (src->x)  / (src->z) + bonus.x;
 	dest->y = (src->y) / (src->z) + bonus.y;
 	dest->z = src->z;
-
+/*
 	ft_putstr("persp ");
 	ft_putfloat(dest->x, 5);
 	ft_putchar('\n');
@@ -73,5 +73,5 @@ void		perspective(t_vertex *dest, t_vertex *src)
 	ft_putchar('\n');
 	ft_putfloat(dest->z, 5);
 	ft_putchar('\n');
-
+*/
 }

@@ -6,19 +6,13 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 05:33:53 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 11:31:26 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/08 22:42:08 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 
-/*
-**	BROWSE A MATRIX
-**	AND SET ITS VALUES FROM A SINGLE VECTOR
-*/
-
-void	matrix_cpy(t_matrix *dest, t_matrix *src, t_vertex *vector,
-				void (*f)(t_vertex *, t_vertex *, t_vertex *))
+void	matrix_cpy(t_matrix *dest, t_matrix *src)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -29,8 +23,7 @@ void	matrix_cpy(t_matrix *dest, t_matrix *src, t_vertex *vector,
 		j = 0;
 		while (j < src->column_len)
 		{
-			f(&((t_vertex *)dest->value[i])[j],
-				&((t_vertex *)src->value[i])[j], vector);
+			ft_memcpy(&((t_vertex *)dest->value[i])[j] , &((t_vertex *)src->value[i])[j], sizeof(t_vertex));
 			j += 1;
 		}
 		i += 1;

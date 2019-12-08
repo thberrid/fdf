@@ -6,14 +6,14 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/07 06:27:27 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 22:30:20 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/08 23:00:12 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 #include <math.h>
 
-int		set_rotation_angle(t_matrix *matrix, double theta)
+int		angle_y(t_matrix *matrix, double theta)
 {
 	t_vertex			*this;
 
@@ -34,7 +34,7 @@ int		set_rotation_angle(t_matrix *matrix, double theta)
 	return (1);
 }
 
-int		set_rotation_look(t_matrix *matrix, double theta)
+int		angle_x(t_matrix *matrix, double theta)
 {
 	t_vertex			*this;
 
@@ -55,7 +55,7 @@ int		set_rotation_look(t_matrix *matrix, double theta)
 	return (1);
 }
 
-int		set_rotation_look2(t_matrix *matrix, double theta)
+int		angle_z(t_matrix *matrix, double theta)
 {
 	t_vertex			*this;
 
@@ -144,7 +144,7 @@ int		vertices_scale(t_matrix *vertices, float coef)
 	return (1);
 }
 
-int		vertices_rotate(t_window *w, unsigned int keycode)
+int		vertices_rotate(t_matrix *matrix, int (*set_angle)(t_matrix *, double), double rotation)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -153,77 +153,19 @@ int		vertices_rotate(t_window *w, unsigned int keycode)
 	ft_bzero(&rot, sizeof(t_matrix));
 	rot.row_len = 1;
 	rot.column_len = 3;
-	if (!set_rotation_angle(&rot, keycode == KEY_LEFT ? -25 : 25))
+	if (!set_angle(&rot, rotation))
 		return (0);
 	i = 0;
-	while (i < w->vertices.row_len)
+	while (i < matrix->row_len)
 	{
 		j = 0;
-		while (j < w->vertices.column_len)
+		while (j < matrix->column_len)
 		{
-			matrix_transform(&rot, &((t_vertex *)w->vertices.value[i])[j]);
+			matrix_transform(&rot, &((t_vertex *)matrix->value[i])[j]);
 			j += 1;
 		}
 		i += 1;
 	}
-	matrix_free(&rot);
-	return (1);
-}
-
-int		vertices_lookat(t_window *w)
-{
-	unsigned int	i;
-	unsigned int	j;
-	t_matrix		rot;
-
-	ft_bzero(&rot, sizeof(t_matrix));
-	rot.row_len = 1;
-	rot.column_len = 3;
-	
-	if (!set_rotation_look(&rot, -0.5))
-		return (0);
-	
-	i = 0;
-	while (i < w->vertices.row_len)
-	{
-		j = 0;
-		while (j < w->vertices.column_len)
-		{
-			matrix_transform(&rot, &((t_vertex *)w->vertices.value[i])[j]);
-			j += 1;
-		}
-		i += 1;
-	}
-	
-
-
-	i = 0;
-	set_rotation_look2(&rot, -0.5);
-	while (i < w->vertices.row_len)
-	{
-		j = 0;
-		while (j < w->vertices.column_len)
-		{
-			matrix_transform(&rot, &((t_vertex *)w->vertices.value[i])[j]);
-			j += 1;
-		}
-		i += 1;
-	}
-	
-	
-	i = 0;
-	set_rotation_angle(&rot, -0.5);
-	while (i < w->vertices.row_len)
-	{
-		j = 0;
-		while (j < w->vertices.column_len)
-		{
-			matrix_transform(&rot, &((t_vertex *)w->vertices.value[i])[j]);
-			j += 1;
-		}
-		i += 1;
-	}
-	
 	matrix_free(&rot);
 	return (1);
 }

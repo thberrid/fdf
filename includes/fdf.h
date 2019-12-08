@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 03:22:00 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 23:07:45 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/08 23:15:57 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,16 @@ typedef	struct	s_window
 {
 	void			*ptr;
 	void			*mlx;
+	char			name[32];
 	t_img			img;
 	t_matrix		px_coord;
-	t_matrix		vertices;
+	t_matrix		obj_vertices;
 	t_matrix		camera;
+	int				angle;
+	t_matrix		proj_plan;
 	unsigned char	proj_type;
 	unsigned int	width;
 	unsigned int	height;
-	char			name[32];
-	t_matrix		plan;
 }				t_window;
 
 /*
@@ -110,8 +111,7 @@ void			matrix_set(t_matrix *vertices, t_vertex *vector,
 					void (*f)(t_vertex *, t_vertex *));
 void			matrix_apply(t_matrix *vertices, t_matrix *vectors,
 					void (*f)(t_vertex *, t_vertex *));
-void			matrix_cpy(t_matrix *dest, t_matrix *src, t_vertex *vector,
-					void (*f)(t_vertex *, t_vertex *, t_vertex *));
+void			matrix_cpy(t_matrix *dest, t_matrix *src);
 void			matrix_free(t_matrix *matrix);
 int				matrix_init(t_matrix *vertices, t_matrix *plan,
 					unsigned char type);
@@ -131,7 +131,9 @@ int				malloc_matrix(t_matrix *matrix);
 **	DRAWING
 */
 
-void			img_build(t_matrix *img, t_matrix *plan, t_window *w);
+void			img_setcolors(t_matrix *img, t_matrix *obj);
+void			img_setalpha(t_matrix *img, t_matrix *obj);
+void			img_setpositions(t_matrix *img, t_matrix *plan, t_window *w);
 void			img_scaling(t_matrix *img, t_matrix *plan, t_window *w);
 void			color_add(int *color, unsigned char value, unsigned char field);
 void			color_incr(int *color, unsigned char value,
@@ -159,11 +161,13 @@ void			bresen_increm_color(t_pixel *start, t_pixel *end, t_pixel *pen,
 void			bresen_update_color(t_pixel *pen, t_pixel *start, t_pixel *end,
 					unsigned int delta_fast);
 
-int				set_rotation_angle(t_matrix *matrix, double theta);
+int				angle_x(t_matrix *matrix, double theta);
+int				angle_y(t_matrix *matrix, double theta);
+int				angle_z(t_matrix *matrix, double theta);
 int				set_scale(t_matrix *matrix, float coef);
 void			matrix_transform(t_matrix *rot, t_vertex *vertices);
 int				vertices_scale(t_matrix *vertices, float coef);
-int				vertices_rotate(t_window *w, unsigned int keycode);
+int				vertices_rotate(t_matrix *vertices, int (*f)(t_matrix *, double), double angle);
 
 void			foreach_edges_draw(t_img *img, t_window *w);
 void			draw_edges(t_img *img, t_matrix *pixels, unsigned int x,
@@ -175,7 +179,6 @@ int				draw_obj(t_window *w);
 **	PROJECTIONS
 */
 
-int				vertices_lookat(t_window *w);
 void			perspective(t_vertex *map, t_vertex *vertices);
 void			ortho(t_vertex *map, t_vertex *vertices);
 int				get_dimension(int dimension, t_pixel *px);

@@ -6,7 +6,7 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 03:33:34 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 20:53:02 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/12/08 21:46:04 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,10 @@ int		vertices_auto_adjust_scale(t_window *w, t_matrix *plan)
 	float	coef;
 	int		(*f)(float, float, t_window *);
 
-	if (w->proj_type == ORTHO)
-		matrix_apply(plan, &w->vertices, &ortho);
-	else
-	{
-		ft_putendl("-----\n---\n----\n---\n-----");
-		matrix_apply(plan, &w->vertices, &perspective);
-	}
+//	if (w->proj_type == ORTHO)
+//	matrix_apply(plan, &w->camera, &ortho);
+//	else
+//		matrix_apply(plan, &w->camera, &perspective);
 	coef = 2;
 	f = &is_bigger;
 	if (vertices_compare(w, plan, is_bigger))
@@ -62,12 +59,13 @@ int		vertices_auto_adjust_scale(t_window *w, t_matrix *plan)
 	}
 	while (!vertices_compare(w, plan, f))
 	{
-		if (!vertices_scale(&w->vertices, coef))
+		if (!vertices_scale(&w->obj_vertices, coef))
 			return (0);
-		if (w->proj_type == ORTHO)
-			matrix_apply(plan, &w->vertices, &ortho);
-		else
-			matrix_apply(plan, &w->vertices, &perspective);
+//		if (w->proj_type == ORTHO)
+			matrix_cpy(&w->camera, &w->obj_vertices);
+			matrix_apply(plan, &w->camera, &ortho);
+//		else
+//			matrix_apply(plan, &w->camera, &perspective);
 	}
 	return (1);
 }
