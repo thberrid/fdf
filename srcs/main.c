@@ -20,6 +20,31 @@ void	clean_w_and_exit(t_window *w)
 	exit(0);
 }
 
+void	vertex_remove_null(t_matrix *vertices)
+{
+	t_vertex	min;
+
+	min.x = matrix_get(vertices, FT_INTMAX, X, &get_min);
+	min.y = matrix_get(vertices, FT_INTMAX, Y, &get_min);
+	min.z = matrix_get(vertices, FT_INTMAX, Z, &get_min);
+	min.x *= 2;
+	min.y *= 2;
+	min.z *= 2;
+	if (min.x == 0)
+		min.x = 1;
+	if (min.y == 0)
+		min.y = 1;
+	if (min.z == 0)
+		min.z = 1;
+	if (min.x < 0)
+		min.x *= -1;
+	if (min.y < 0)
+		min.y *= -1;
+	if (min.z < 0)
+		min.z *= -1;
+	matrix_set(vertices, &min, &vertex_increment);
+}
+
 /*
 ** to search leaks, put before the exit = system("leaks fdf");
 */
@@ -47,16 +72,17 @@ int		get_keypressed(unsigned int keycode, t_window *w)
 		matrix_apply(&w->proj_plan, &w->camera, &ortho);
 	else
 	{
+		vertices_rotate(&w->camera, &angle_x, 24.5);		// angle x buggy but ok
 		if (keycode == KEY_PLUS)
 			w->angle += 1;
 		if (keycode == KEY_MINUS)
 			w->angle -= 1;
-		vertices_rotate(&w->camera, angle_x, w->angle * 10.0);
-//		vertices_rotate(&w->camera, angle_y, 25.0);
-//		vertices_rotate(&w->camera, angle_z, -25.0);
-		matrix_apply(&w->proj_plan, &w->camera, &perspective);
+		vertex_remove_null(&w->camera);
+//		vertices_rotate(&w->camera, &angle_y, w->angle * 25.0);		// ange y buggy but ok
+//		vertices_rotate(&w->camera, &angle_z, w->angle * 25.0);		// => angle z ok
+			matrix_apply(&w->proj_plan, &w->camera, &perspective);
 //		if (keycode == KEY_PERSP)
-//			vertices_auto_adjust_scale(w, &w->plan);
+		//	vertices_auto_adjust_scale(w, &w->proj_plan);
 	}
 
 	if (!matrix_init(&w->px_coord, &w->proj_plan, sizeof(t_pixel)))
@@ -87,34 +113,6 @@ void	window_init(t_window *w)
 	w->height = 750;
 	w->proj_type = ORTHO;
 	ft_strcpy(w->name, "ok boomer");
-}
-
-void	vertex_remove_null(t_matrix *vertices)
-{
-	t_vertex	min;
-
-	min.x = matrix_get(vertices, FT_INTMAX, X, &get_min);
-	/*
-	if (min.x < 0)
-		min.x *= -1;
-	if (!min.x)
-		min.x = 1;
-		*/
-	min.x = 10;
-	min.z = 0;
-	min.y = matrix_get(vertices, FT_INTMIN, Y, &get_max);
-	if (min.y > 0)
-		min.y *= -2;
-	if (!min.y)
-		min.y = -10;
-	/*
-	min.z = matrix_get(vertices, FT_INTMAX, Z, &get_min);
-	if (min.z < 0)
-		min.z *= -1;
-	if (!min.z)
-		min.z = 1;
-	*/
-	matrix_set(vertices, &min, &vertex_increment);
 }
 
 int		main(int ac, char **av)

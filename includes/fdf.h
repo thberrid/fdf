@@ -35,9 +35,9 @@ typedef struct	s_matrix
 
 typedef struct	s_vertex
 {
-	float	x;
-	float	y;
-	float	z;
+	double	x;
+	double	y;
+	double	z;
 }				t_vertex;
 
 /*
