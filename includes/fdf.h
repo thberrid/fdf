@@ -176,7 +176,8 @@ int				vertices_rotate(t_matrix *vertices,
 void			foreach_edges_draw(t_window *w);
 void			draw_edges(t_window *w, unsigned int x,
 					unsigned int y);
-void			draw_line(int is_front, t_pixel *start, t_pixel *end, t_img *img);
+void			draw_line(int is_front, t_pixel *start, t_pixel *end,
+					t_img *img);
 void			update_pen_color(t_pixel *pen);
 void			pen_init(t_pixel *pen, t_pixel *start);
 
