@@ -26,7 +26,7 @@ static int	clear_remaining(char **remaining, char **line)
 		if (*(position + 1))
 			ft_strcpy(*remaining, position + 1);
 		else
-			ft_strdel(remaining);		
+			ft_strdel(remaining);
 		return (1);
 	}
 	if (!(*line = ft_strdup(*remaining)))
@@ -38,7 +38,7 @@ static int	clear_remaining(char **remaining, char **line)
 int			get_next_line(int fd, char **line)
 {
 	char			buffer[BUFF_SIZE + 1];
-    static char		*remaining = NULL;
+	static char		*remaining = NULL;
 	char			*tmp;
 	int				retrn;
 
@@ -56,5 +56,5 @@ int			get_next_line(int fd, char **line)
 	}
 	if (remaining)
 		return (clear_remaining(&remaining, line));
-    return (retrn);
+	return (retrn);
 }

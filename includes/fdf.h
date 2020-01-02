@@ -169,7 +169,8 @@ int				angle_z(t_matrix *matrix, double theta);
 int				set_scale(t_matrix *matrix, float coef);
 void			matrix_transform(t_matrix *rot, t_vertex *vertices);
 int				vertices_scale(t_matrix *vertices, float coef);
-int				vertices_rotate(t_matrix *vertices, int (*f)(t_matrix *, double), double angle);
+int				vertices_rotate(t_matrix *vertices,
+					int (*f)(t_matrix *, double), double angle);
 
 void			foreach_edges_draw(t_img *img, t_window *w);
 void			draw_edges(t_img *img, t_matrix *pixels, unsigned int x,
