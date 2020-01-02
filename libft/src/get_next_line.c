@@ -6,72 +6,55 @@
 /*   By: thberrid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 12:42:02 by thberrid          #+#    #+#             */
-/*   Updated: 2019/12/07 14:48:39 by thberrid         ###   ########.fr       */
+/*   Updated: 2019/05/31 23:16:30 by thberrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
+#include <get_next_line.h>
 
-#define BUFF_SIZEGNL 1
-
-char		*ft_fill_line(char *s, char **line)
+static int	clear_remaining(char **remaining, char **line)
 {
-	char	*tmp;
+	char	*position;
 
-	tmp = NULL;
-	if ((tmp = ft_strchr(s, '\n')))
+	if (*remaining && (position = ft_strchr(*remaining, '\n')))
 	{
-		*tmp = 0;
-		if (!(tmp = ft_strdup(tmp)))
-			return (NULL);
-		if (!(*line = ft_strdup(s)))
-		{
-			ft_strdel(&tmp);
-			return (NULL);
-		}
-		ft_strdel(&s);
-		s = tmp;
+		*position = '\0';
+		*line = ft_strdup(*remaining);
+		if (!*line)
+			return (-1);
+		if (*(position + 1))
+			ft_strcpy(*remaining, position + 1);
+		else
+			ft_strdel(remaining);		
+		return (1);
 	}
-	else
-	{
-		if (!(*line = ft_strdup(s)))
-			return (NULL);
-		ft_strclr(s);
-	}
-	return (s);
-}
-
-int			ft_returnfree(char *s, int ret)
-{
-	ft_strdel(&s);
-	return (ret);
-}
-
-int			get_next_line(const int fd, char **line)
-{
-	static char	*s;
-	char		buf[BUFF_SIZEGNL + 1];
-	char		*tmp;
-	int			ret;
-
-	if (fd < 0 || line == NULL || read(fd, 0, 0) < 0)
+	if (!(*line = ft_strdup(*remaining)))
 		return (-1);
-	if (s == NULL)
-		if (!(s = ft_strnew(0)))
-			return (-1);
-	while ((ret = read(fd, buf, BUFF_SIZEGNL)))
+	ft_strdel(remaining);
+	return (1);
+}
+
+int			get_next_line(int fd, char **line)
+{
+	char			buffer[BUFF_SIZE + 1];
+    static char		*remaining = NULL;
+	char			*tmp;
+	int				retrn;
+
+	while ((retrn = read(fd, buffer, BUFF_SIZE)) > 0)
 	{
-		buf[ret] = '\0';
-		if (!(tmp = ft_strjoin(s, buf)))
+		buffer[retrn] = '\0';
+		if (ft_memchr(buffer, 0, retrn) || !(tmp = ft_strdup(remaining)))
 			return (-1);
-		ft_strdel(&s);
-		s = tmp;
-		if (ft_strchr(buf, '\n'))
+		ft_strdel(&remaining);
+		if (!(remaining = ft_strjoin(tmp, buffer)))
+			return (-1);
+		ft_strdel(&tmp);
+		if (ft_strchr(remaining, '\n'))
 			break ;
 	}
-	if (ret <= 0 && !(*s))
-		return (ft_returnfree(s, 0));
-	if (!(s = ft_fill_line(s, line)))
-		return (ft_returnfree(s, -1));
-	return (1);
+	if (remaining)
+		return (clear_remaining(&remaining, line));
+    return (retrn);
 }
