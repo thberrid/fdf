@@ -27,6 +27,7 @@
 # define KEY_W		13
 
 # define KEYS_TRANSLATION "\x01\x02\x03\x0e"
+# define KEYS_EXPECTED "\x35\xc\x7b\x7c\x7d\x7e\x31\x0"
 
 # define KEY_SPACE	49
 # define KEY_PLUS	69

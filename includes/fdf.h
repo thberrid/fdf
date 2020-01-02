@@ -87,6 +87,7 @@ typedef	struct	s_window
 	unsigned char	proj_type;
 	unsigned int	width;
 	unsigned int	height;
+	unsigned int	is_front;
 }				t_window;
 
 /*
@@ -172,11 +173,10 @@ int				vertices_scale(t_matrix *vertices, float coef);
 int				vertices_rotate(t_matrix *vertices,
 					int (*f)(t_matrix *, double), double angle);
 
-void			foreach_edges_draw(t_img *img, t_window *w);
-void			draw_edges(t_img *img, t_matrix *pixels, unsigned int x,
+void			foreach_edges_draw(t_window *w);
+void			draw_edges(t_window *w, unsigned int x,
 					unsigned int y);
-void			draw_line(t_pixel *start, t_pixel *end, t_img *img);
-int				draw_obj(t_window *w);
+void			draw_line(int is_front, t_pixel *start, t_pixel *end, t_img *img);
 
 /*
 **	PROJECTIONS

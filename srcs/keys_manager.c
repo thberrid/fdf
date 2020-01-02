@@ -32,7 +32,7 @@ int		send_modifications(int keycode, t_window *w)
 {
 	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
 		if (!vertices_rotate(&w->obj_vertices, &angle_y,
-			keycode == KEY_LEFT ? -25.0 : 25.0))
+			keycode == KEY_LEFT ? 0.25 : -0.25))
 			return (0);
 	if (keycode == KEY_TOP || keycode == KEY_BOTTOM)
 		if (!vertices_scale(&w->obj_vertices,
@@ -43,6 +43,8 @@ int		send_modifications(int keycode, t_window *w)
 
 int		get_keypressed(unsigned int keycode, t_window *w)
 {
+	if (!ft_ischarset(keycode, KEYS_EXPECTED))
+		return (0);
 	matrix_free(&w->px_coord);
 	if (keycode == KEY_ESC || keycode == KEY_Q)
 		clean_w_and_exit(w);

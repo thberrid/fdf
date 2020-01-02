@@ -26,8 +26,10 @@ void	set_background(t_img *img)
 		pen.x = 0;
 		while (pen.x < img->width)
 		{
-			ft_memcpy(&(img->data[(pen.x * img->bits_px / 8)\
-				+ (pen.y * img->size_line)]), &pen.color, img->bits_px / 8);
+			if (!img->data[(pen.x * img->bits_px / 8)\
+					+ (pen.y * img->size_line)])
+				ft_memcpy(&(img->data[(pen.x * img->bits_px / 8)\
+					+ (pen.y * img->size_line)]), &pen.color, img->bits_px / 8);
 			pen.x += 1;
 		}
 		if (pen.y > 250 && !(pen.y % 25))
@@ -50,17 +52,17 @@ int		draw_obj(t_window *w)
 		&next_img.size_line, &next_img.endian);
 	next_img.height = w->height;
 	next_img.width = w->width;
-	set_background(&next_img);
-	foreach_edges_draw(&next_img, w);
 	if (w->img.id)
 		mlx_destroy_image(w->mlx, w->img.id);
 	w->img = next_img;
+	foreach_edges_draw(w);
+	set_background(&next_img);
 	mlx_clear_window(w->mlx, w->ptr);
 	mlx_put_image_to_window(w->mlx, w->ptr, w->img.id, 0, 0);
 	return (0);
 }
 
-void	draw_line(t_pixel *start, t_pixel *end, t_img *img)
+void	draw_line(int is_front, t_pixel *start, t_pixel *end, t_img *img)
 {
 	unsigned int	delta_fast;
 	float			error;
@@ -81,42 +83,49 @@ void	draw_line(t_pixel *start, t_pixel *end, t_img *img)
 	{
 		if (pen.x >= 0 && pen.y >= 0 && pen.x < img->width
 			&& pen.y < img->height)
-			ft_memcpy(&(img->data[(pen.x * img->bits_px / 8)\
-				+ (pen.y * img->size_line)]), &pen.color, img->bits_px / 8);
+			if (!is_front || (is_front && !img->data[(pen.x * img->bits_px / 8)\
+				+ (pen.y * img->size_line)]))
+				ft_memcpy(&(img->data[(pen.x * img->bits_px / 8)\
+					+ (pen.y * img->size_line)]), &pen.color, img->bits_px / 8);
 		error = bresen_update_error(error, start, end, &pen);
 		bresen_update_color(&pen, start, end, delta_fast);
 		i += 1;
 	}
 }
 
-void	draw_edges(t_img *img, t_matrix *pixels, unsigned int x, unsigned int y)
+void	draw_edges(t_window *w, unsigned int x, unsigned int y)
 {
 	t_pixel		*start;
 	t_pixel		*end;
 
-	start = &((t_pixel *)pixels->value[y])[x];
+	start = &((t_pixel *)w->px_coord.value[y])[x];
 	end = NULL;
-	if (x + 1 != pixels->column_len)
-		end = &((t_pixel *)pixels->value[y])[x + 1];
-	draw_line(start, end, img);
+	if (x + 1 != w->px_coord.column_len)
+		end = &((t_pixel *)w->px_coord.value[y])[x + 1];
+	draw_line(w->is_front, start, end, &w->img);
 	end = NULL;
-	if (y + 1 != pixels->row_len)
-		end = &((t_pixel *)pixels->value[y + 1])[x];
-	draw_line(start, end, img);
+	if (y + 1 != w->px_coord.row_len)
+		end = &((t_pixel *)w->px_coord.value[y + 1])[x];
+	draw_line(w->is_front, start, end, &w->img);
 }
 
-void	foreach_edges_draw(t_img *img, t_window *w)
+void	foreach_edges_draw(t_window *w)
 {
 	unsigned int		x;
 	unsigned int		y;
 
 	y = 0;
+	int *xx = &((t_pixel *)w->px_coord.value[0])[0].x;
+	int *yy = &((t_pixel *)w->px_coord.value[0])[w->px_coord.column_len - 1].x;
 	while (y < w->px_coord.row_len)
 	{
+		w->is_front = 0;
 		x = 0;
+		if (*xx > *yy)
+			w->is_front = 1;
 		while (x < w->px_coord.column_len)
 		{
-			draw_edges(img, &w->px_coord, x, y);
+			draw_edges(w, x, y);
 			x += 1;
 		}
 		y += 1;
