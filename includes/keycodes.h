@@ -17,9 +17,6 @@
 # define KEY_Q		12
 # define KEY_ENTER 	36
 
-# define KEY_PERSP	35
-# define KEY_ORTHO	31
-
 # define KEY_LEFT	123
 # define KEY_RIGHT	124
 # define KEY_BOTTOM	125

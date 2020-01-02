@@ -21,8 +21,10 @@ NAME_C	= main.c \
 		  colors.c \
 		  draw.c \
 		  image.c \
+		  img_modif.c \
 		  image_get.c \
 		  image_set.c \
+		  keys_manager.c \
 		  map_parse.c \
 		  map_print.c \
 		  matrix.c \
@@ -33,6 +35,7 @@ NAME_C	= main.c \
 		  raw.c \
 		  vertex.c \
 		  vertices.c \
+		  vertices_scale.c \
 		  vertices_transform.c
 NAME_O	= $(NAME_C:.c=.o)
 NAME_H	= fdf.h \

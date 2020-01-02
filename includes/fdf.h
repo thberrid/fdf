@@ -126,6 +126,7 @@ void			matrix_transform(t_matrix *scale, t_vertex *vertices);
 int				vertices_scale(t_matrix *vertices, float coef);
 int				vertices_auto_adjust_scale(t_window *w, t_matrix *plan);
 int				malloc_matrix(t_matrix *matrix);
+void			vertex_remove_null(t_matrix *vertices);
 
 /*
 **	DRAWING
@@ -149,6 +150,7 @@ int				int_minmax(t_matrix *matrix, int def_val, int dimension,
 int				is_sup(int a, t_pixel *px, int dimension);
 int				int_range(t_matrix *matrix, int dimension);
 void			img_centering(t_matrix *img, t_window *w);
+void			set_minmax(t_vertex *min, t_vertex *max, t_matrix *matrix);
 
 void			bresen_set_delta(t_pixel *delta, t_pixel *start, t_pixel *end);
 unsigned int	bresen_set_deltafast(t_pixel *start, t_pixel *end);
@@ -186,5 +188,9 @@ void			apply_scale(t_matrix *img, t_matrix *plan, t_window *w,
 					float scaler);
 unsigned char	get_alt_color(float y, float max);
 unsigned char	get_alt_alpha(float y, float max);
+
+void			img_set(t_window *w);
+void			clean_w_and_exit(t_window *w);
+int				get_keypressed(unsigned int keycode, t_window *w);
 
 #endif

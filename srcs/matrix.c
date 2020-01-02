@@ -23,7 +23,8 @@ void	matrix_cpy(t_matrix *dest, t_matrix *src)
 		j = 0;
 		while (j < src->column_len)
 		{
-			ft_memcpy(&((t_vertex *)dest->value[i])[j] , &((t_vertex *)src->value[i])[j], sizeof(t_vertex));
+			ft_memcpy(&((t_vertex *)dest->value[i])[j],
+				&((t_vertex *)src->value[i])[j], sizeof(t_vertex));
 			j += 1;
 		}
 		i += 1;

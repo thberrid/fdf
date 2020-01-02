@@ -15,9 +15,7 @@
 
 void		perspective(t_vertex *dest, t_vertex *src)
 {
-
 	dest->x = (src->x) / (src->z) + src->x;
 	dest->y = (src->y) / (src->z) + src->y;
-
 	dest->z = src->z;
 }
