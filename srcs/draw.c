@@ -33,7 +33,7 @@ void	set_background(t_img *img)
 			pen.x += 1;
 		}
 		if (pen.y > 250 && !(pen.y % 25))
-			update_pen_color(&pen);
+			pen_update_color(&pen);
 		pen.y += 1;
 	}
 }

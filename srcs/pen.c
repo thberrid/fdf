@@ -12,7 +12,7 @@
 
 #include <fdf.h>
 
-void	update_pen_color(t_pixel *pen)
+void	pen_update_color(t_pixel *pen)
 {
 	color_decr(&pen->color, 1, RED);
 	color_decr(&pen->color, 1, GREEN);
