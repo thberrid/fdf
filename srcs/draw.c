@@ -33,11 +33,7 @@ void	set_background(t_img *img)
 			pen.x += 1;
 		}
 		if (pen.y > 250 && !(pen.y % 25))
-		{
-			color_decr(&pen.color, 1, RED);
-			color_decr(&pen.color, 1, GREEN);
-			color_decr(&pen.color, 1, BLUE);
-		}
+			update_pen_color(&pen);
 		pen.y += 1;
 	}
 }
@@ -71,11 +67,8 @@ void	draw_line(int is_front, t_pixel *start, t_pixel *end, t_img *img)
 
 	if (!end)
 		return ;
-	ft_bzero(&pen, sizeof(t_pixel));
 	delta_fast = bresen_set_deltafast(start, end);
-	pen.x = start->x;
-	pen.y = start->y;
-	pen.color = start->color;
+	pen_init(&pen, start);
 	bresen_init_stepcolor(delta_fast, &pen, start, end);
 	error = delta_fast / 2;
 	i = 0;
@@ -115,13 +108,12 @@ void	foreach_edges_draw(t_window *w)
 	unsigned int		y;
 
 	y = 0;
-	int *xx = &((t_pixel *)w->px_coord.value[0])[0].x;
-	int *yy = &((t_pixel *)w->px_coord.value[0])[w->px_coord.column_len - 1].x;
 	while (y < w->px_coord.row_len)
 	{
 		w->is_front = 0;
 		x = 0;
-		if (*xx > *yy)
+		if (*(&((t_pixel *)w->px_coord.value[0])[0].x)
+		>= *(&((t_pixel *)w->px_coord.value[0])[w->px_coord.column_len - 1].x))
 			w->is_front = 1;
 		while (x < w->px_coord.column_len)
 		{

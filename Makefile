@@ -30,6 +30,7 @@ NAME_C	= main.c \
 		  matrix.c \
 		  matrix_addrow.c \
 		  matrix_free.c \
+		  pen.c \
 		  projection_persp.c \
 		  projection_ortho.c \
 		  raw.c \
