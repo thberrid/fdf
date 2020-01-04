@@ -12,8 +12,9 @@
 
 #include <fdf.h>
 
-void	ortho(t_vertex *dest, t_vertex *src)
+void	ortho(t_vertex *dest, t_vertex *src, float norm)
 {
+	(void)norm;
 	dest->x = src->x + (src->z / 2);
 	dest->y = src->y + src->z;
 	dest->z = src->z;

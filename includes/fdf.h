@@ -111,7 +111,7 @@ float			matrix_get(t_matrix *vertices, float value,
 void			matrix_set(t_matrix *vertices, t_vertex *vector,
 					void (*f)(t_vertex *, t_vertex *));
 void			matrix_apply(t_matrix *vertices, t_matrix *vectors,
-					void (*f)(t_vertex *, t_vertex *));
+					float norm, void (*f)(t_vertex *, t_vertex *, float));
 void			matrix_cpy(t_matrix *dest, t_matrix *src);
 void			matrix_free(t_matrix *matrix);
 int				matrix_init(t_matrix *vertices, t_matrix *plan,
@@ -185,8 +185,8 @@ void			pen_init(t_pixel *pen, t_pixel *start);
 **	PROJECTIONS
 */
 
-void			perspective(t_vertex *map, t_vertex *vertices);
-void			ortho(t_vertex *map, t_vertex *vertices);
+void			perspective(t_vertex *map, t_vertex *vertices, float norm);
+void			ortho(t_vertex *map, t_vertex *vertices, float norm);
 int				get_dimension(int dimension, t_pixel *px);
 void			apply_scale(t_matrix *img, t_matrix *plan, t_window *w,
 					float scaler);

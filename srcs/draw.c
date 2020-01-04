@@ -42,14 +42,14 @@ int		draw_obj(t_window *w)
 {
 	t_img				next_img;
 
+	if (w->img.id)
+		mlx_destroy_image(w->mlx, w->img.id);
 	ft_bzero(&next_img, sizeof(next_img));
 	next_img.id = mlx_new_image(w->mlx, w->width, w->height);
 	next_img.data = mlx_get_data_addr(next_img.id, &next_img.bits_px,\
 		&next_img.size_line, &next_img.endian);
 	next_img.height = w->height;
 	next_img.width = w->width;
-	if (w->img.id)
-		mlx_destroy_image(w->mlx, w->img.id);
 	w->img = next_img;
 	foreach_edges_draw(w);
 	set_background(&next_img);

@@ -54,12 +54,13 @@ int		get_keypressed(unsigned int keycode, t_window *w)
 		return (0);
 	matrix_cpy(&w->camera, &w->obj_vertices);
 	if (w->proj_type == ORTHO)
-		matrix_apply(&w->proj_plan, &w->camera, &ortho);
+		matrix_apply(&w->proj_plan, &w->camera, 0, &ortho);
 	else
 	{
-		vertices_rotate(&w->camera, &angle_x, 24.5);
+		vertices_rotate(&w->camera, &angle_x, -1.25);
 		vertex_remove_null(&w->camera);
-		matrix_apply(&w->proj_plan, &w->camera, &perspective);
+		matrix_apply(&w->proj_plan, &w->camera,
+			matrix_get(&w->camera, FT_INTMIN, Z, &get_max), &perspective);
 	}
 	if (!matrix_init(&w->px_coord, &w->proj_plan, sizeof(t_pixel)))
 		return (0);

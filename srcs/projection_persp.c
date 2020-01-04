@@ -13,9 +13,17 @@
 #include <fdf.h>
 #include <math.h>
 
-void		perspective(t_vertex *dest, t_vertex *src)
+void		perspective(t_vertex *dest, t_vertex *src, float norm)
 {
-	dest->x = (src->x) / (src->z) + src->x;
-	dest->y = (src->y) / (src->z) + src->y;
-	dest->z = src->z;
+	int		focal;
+	float	scale;
+
+	focal = 2;
+	scale = ((src->z / (norm)) * focal);
+	if (scale < 0)
+		scale *= -1;
+	dest->x = src->x + (src->z / 2);
+	dest->y = src->y + src->z;
+	dest->x /= scale;
+	dest->y /= scale;
 }

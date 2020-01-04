@@ -49,7 +49,7 @@ int		window_fill(t_window *w, char *file)
 	if (!matrix_init(&w->camera, &w->obj_vertices, sizeof(t_pixel)))
 		return (0);
 	matrix_cpy(&w->camera, &w->obj_vertices);
-	matrix_apply(&w->proj_plan, &w->camera, &ortho);
+	matrix_apply(&w->proj_plan, &w->camera, 0, &ortho);
 	if (!vertices_auto_adjust_scale(w, &w->proj_plan))
 		return (0);
 	return (1);

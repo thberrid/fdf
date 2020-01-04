@@ -58,7 +58,7 @@ int		vertices_auto_adjust_scale(t_window *w, t_matrix *plan)
 		if (!vertices_scale(&w->obj_vertices, coef))
 			return (0);
 		matrix_cpy(&w->camera, &w->obj_vertices);
-		matrix_apply(plan, &w->camera, &ortho);
+		matrix_apply(plan, &w->camera, 0, &ortho);
 	}
 	return (1);
 }

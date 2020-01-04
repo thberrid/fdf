@@ -61,7 +61,7 @@ void	matrix_set(t_matrix *vertices, t_vertex *vector,
 */
 
 void	matrix_apply(t_matrix *vertices, t_matrix *vectors,
-				void (*f)(t_vertex *, t_vertex *))
+			float norm, void (*f)(t_vertex *, t_vertex *, float))
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -74,7 +74,7 @@ void	matrix_apply(t_matrix *vertices, t_matrix *vectors,
 		while (j < vertices->column_len)
 		{
 			vector = &((t_vertex *)vectors->value[i])[j];
-			f(&((t_vertex *)vertices->value[i])[j], vector);
+			f(&((t_vertex *)vertices->value[i])[j], vector, norm);
 			j += 1;
 		}
 		i += 1;
