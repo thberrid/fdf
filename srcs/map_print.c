@@ -33,20 +33,18 @@ static void		print_y(t_vertex *vertex, t_vertex *padding)
 {
 	int		intlen;
 
+	ft_putstr("x: ");
+	ft_putnbr((int)vertex->x);
+	ft_putchar(' ');
+	ft_putstr("y: ");
 	ft_putnbr((int)vertex->y);
+	ft_putchar(' ');
+	ft_putstr("z: ");
+	ft_putnbr((int)vertex->z);
+	ft_putchar('\n');
+	ft_putchar('\n');
 	intlen = (int)padding->y;
 	intlen -= ft_intlen((int)vertex->y);
-	while (intlen < 5 && intlen > 0)
-	{
-		ft_putchar(' ');
-		intlen -= 1;
-	}
-	padding->x += 1;
-	if (padding->x == padding->z)
-	{
-		padding->x = 0;
-		ft_putchar('\n');
-	}
 }
 
 void			map_print(t_matrix *vertices)

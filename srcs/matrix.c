@@ -24,7 +24,7 @@ void	matrix_cpy(t_matrix *dest, t_matrix *src)
 		while (j < src->column_len)
 		{
 			ft_memcpy(&((t_vertex *)dest->value[i])[j],
-				&((t_vertex *)src->value[i])[j], sizeof(t_vertex));
+				&((t_vertex *)src->value[i])[j], sizeof(t_vertex) * 2);
 			j += 1;
 		}
 		i += 1;
@@ -122,7 +122,7 @@ int		matrix_init(t_matrix *new, t_matrix *src, unsigned char type)
 		return (0);
 	while (i < src->row_len)
 	{
-		if (!(new->value[i] = ft_memalloc(type * src->column_len)))
+		if (!(new->value[i] = ft_memalloc(type * src->column_len * 2)))
 			return (0);
 		i += 1;
 	}

@@ -105,7 +105,7 @@ INC_NAME 	= libft.h \
 CPPFLAGS 	= -I ./includes
 INCDIR 		= includes
 CPPFLAGS 	= -I ./includes
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g3
 OBJS_NAME 	= $(SRCS:.c=.o)
 OBJS 		= $(addprefix $(OBJDIR)/, $(OBJS_NAME))
 FILES_H 	= $(addprefix $(INCDIR)/, $(INC_NAME))

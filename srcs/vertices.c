@@ -14,14 +14,14 @@
 
 int		is_smaller(float x_range, float y_range, t_window *w)
 {
-	if (y_range < w->height * 0.5 && x_range < w->width * 0.5)
+	if (y_range < w->height * 0.65 && x_range < w->width * 0.65)
 		return (1);
 	return (0);
 }
 
 int		is_bigger(float x_range, float y_range, t_window *w)
 {
-	if (y_range > w->height * 0.5 || x_range > w->width * 0.5)
+	if (y_range > w->height * 0.65 || x_range > w->width * 0.65)
 		return (1);
 	return (0);
 }
@@ -41,7 +41,19 @@ int		vertices_compare(t_window *w, t_matrix *plan,
 	return (compare(x_max - x_min, y_max - y_min, w));
 }
 
-int		vertices_auto_adjust_scale(t_window *w, t_matrix *plan)
+int		render_persp(t_window *w)
+{
+	matrix_cpy(&w->camera, &w->obj_vertices);
+	if (!vertices_rotate(&w->camera, &angle_x, -1.25))
+		return (0);
+	vertex_remove_null(&w->camera);
+	matrix_apply(&w->proj_plan, &w->camera,
+		matrix_get(&w->camera, FT_INTMIN, Z, &get_max), &perspective);
+	return (1);
+}
+
+int		vertices_auto_adjust_scale(t_window *w, t_matrix *plan,
+		void (*proj)(t_vertex *, t_vertex *, float))
 {
 	float	coef;
 	int		(*f)(float, float, t_window *);
@@ -58,7 +70,13 @@ int		vertices_auto_adjust_scale(t_window *w, t_matrix *plan)
 		if (!vertices_scale(&w->obj_vertices, coef))
 			return (0);
 		matrix_cpy(&w->camera, &w->obj_vertices);
-		matrix_apply(plan, &w->camera, 0, &ortho);
+		if (proj == &perspective)
+		{
+			if (!render_persp(w))
+				return (0);
+		}
+		else
+			matrix_apply(plan, &w->camera, 0, proj);
 	}
 	return (1);
 }

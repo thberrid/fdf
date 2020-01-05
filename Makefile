@@ -37,6 +37,7 @@ NAME_C	= main.c \
 		  vertex.c \
 		  vertices.c \
 		  vertices_scale.c \
+		  vertices_perspective.c \
 		  vertices_transform.c
 NAME_O	= $(NAME_C:.c=.o)
 NAME_H	= fdf.h \
@@ -46,16 +47,16 @@ FILES_O	= $(addprefix $(DIR_O)/, $(NAME_O))
 FILES_H	= $(addprefix $(DIR_H)/, $(NAME_H))
 LIBFT	= ./libft/libft.a
 MLX		= ./libmlx.dylib
-FLAGS	= -Wall -Wextra -Werror -g
+FLAGS	= -Wall -Wextra -Werror -g3
 
 all : $(NAME)
 
 $(NAME) : $(FILES_O) $(FILES_H) $(LIBFT) $(MLX)
-	gcc -I ./$(DIR_H) -I ./libft/includes -I ./minilibx/ -L ./libft/ -lft $(MLX) -o $(NAME) $(FILES_O)
+	gcc -fsanitize=address -I ./$(DIR_H) -I ./libft/includes -I ./minilibx/ -L ./libft/ -lft $(MLX) -o $(NAME) $(FILES_O)
  
 $(DIR_O)/%.o : $(DIR_C)/%.c $(FILES_H)
 	@ mkdir -p $(DIR_O)
-	gcc $(FLAGS) -I ./$(DIR_H) -I ./libft/includes -I ./minilibx -c -o $@ $<
+	gcc $(FLAGS) -fsanitize=address -I ./$(DIR_H) -I ./libft/includes -I ./minilibx -c -o $@ $<
 
 $(LIBFT) :
 	make -C ./libft/

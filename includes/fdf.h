@@ -38,6 +38,7 @@ typedef struct	s_vertex
 	double	x;
 	double	y;
 	double	z;
+	double	w;
 }				t_vertex;
 
 /*
@@ -78,6 +79,7 @@ typedef	struct	s_window
 	void			*ptr;
 	void			*mlx;
 	char			name[32];
+	char			working;
 	t_img			img;
 	t_matrix		px_coord;
 	t_matrix		obj_vertices;
@@ -125,7 +127,8 @@ float			get_max(float value, t_vertex *new_value,
 void			print_this(t_vertex *this, t_vertex *nullit);
 void			matrix_transform(t_matrix *scale, t_vertex *vertices);
 int				vertices_scale(t_matrix *vertices, float coef);
-int				vertices_auto_adjust_scale(t_window *w, t_matrix *plan);
+int				vertices_auto_adjust_scale(t_window *w, t_matrix *plan,
+					void (*proj)(t_vertex *, t_vertex *, float));
 int				malloc_matrix(t_matrix *matrix);
 void			vertex_remove_null(t_matrix *vertices);
 
@@ -176,15 +179,17 @@ int				vertices_rotate(t_matrix *vertices,
 void			foreach_edges_draw(t_window *w);
 void			draw_edges(t_window *w, unsigned int x,
 					unsigned int y);
-void			draw_line(int is_front, t_pixel *start, t_pixel *end,
-					t_img *img);
+void			draw_line(t_pixel *start, t_pixel *end,
+					t_img *img, int is_front);
 void			pen_update_color(t_pixel *pen);
 void			pen_init(t_pixel *pen, t_pixel *start);
+void			img_set(t_window *w);
 
 /*
 **	PROJECTIONS
 */
 
+int				render_persp(t_window *w);
 void			perspective(t_vertex *map, t_vertex *vertices, float norm);
 void			ortho(t_vertex *map, t_vertex *vertices, float norm);
 int				get_dimension(int dimension, t_pixel *px);
@@ -193,8 +198,12 @@ void			apply_scale(t_matrix *img, t_matrix *plan, t_window *w,
 unsigned char	get_alt_color(float y, float max);
 unsigned char	get_alt_alpha(float y, float max);
 
-void			img_set(t_window *w);
+/*
+** WINDOW MANAGEMNT
+*/
+
 void			clean_w_and_exit(t_window *w);
 int				get_keypressed(unsigned int keycode, t_window *w);
+int				get_mousepressed(int button, int x, int y, t_window *w);
 
 #endif

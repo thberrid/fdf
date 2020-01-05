@@ -16,14 +16,17 @@
 void		perspective(t_vertex *dest, t_vertex *src, float norm)
 {
 	int		focal;
-	float	scale;
+	int		scale;
 
-	focal = 2;
+	focal = 20000;
 	scale = ((src->z / (norm)) * focal);
+	if (scale == 0)
+		scale = 1;
 	if (scale < 0)
 		scale *= -1;
-	dest->x = src->x + (src->z / 2);
-	dest->y = src->y + src->z;
-	dest->x /= scale;
-	dest->y /= scale;
+	dest->x = src->x;
+	dest->y = src->y;
+	dest->x = ceil(dest->x /= scale);
+	dest->y = ceil(dest->y /= scale);
+	dest->z = src->z;
 }

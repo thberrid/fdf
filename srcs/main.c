@@ -14,6 +14,7 @@
 
 void	clean_w_and_exit(t_window *w)
 {
+	ft_putendl("exit called");
 	matrix_free(&w->obj_vertices);
 	mlx_destroy_image(w->mlx, w->img.id);
 	mlx_destroy_window(w->mlx, w->ptr);
@@ -46,11 +47,11 @@ int		window_fill(t_window *w, char *file)
 		return (0);
 	if (!matrix_init(&w->px_coord, &w->obj_vertices, sizeof(t_pixel)))
 		return (0);
-	if (!matrix_init(&w->camera, &w->obj_vertices, sizeof(t_pixel)))
+	if (!matrix_init(&w->camera, &w->obj_vertices, sizeof(t_vertex)))
 		return (0);
 	matrix_cpy(&w->camera, &w->obj_vertices);
 	matrix_apply(&w->proj_plan, &w->camera, 0, &ortho);
-	if (!vertices_auto_adjust_scale(w, &w->proj_plan))
+	if (!vertices_auto_adjust_scale(w, &w->proj_plan, &ortho))
 		return (0);
 	return (1);
 }

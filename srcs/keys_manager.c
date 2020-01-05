@@ -51,19 +51,18 @@ int		get_keypressed(unsigned int keycode, t_window *w)
 	if (keycode == KEY_SPACE)
 		switch_projection(w);
 	if (!send_modifications(keycode, w))
-		return (0);
+		clean_w_and_exit(w);
 	matrix_cpy(&w->camera, &w->obj_vertices);
 	if (w->proj_type == ORTHO)
 		matrix_apply(&w->proj_plan, &w->camera, 0, &ortho);
-	else
-	{
-		vertices_rotate(&w->camera, &angle_x, -1.25);
-		vertex_remove_null(&w->camera);
-		matrix_apply(&w->proj_plan, &w->camera,
-			matrix_get(&w->camera, FT_INTMIN, Z, &get_max), &perspective);
-	}
+	else if (!render_persp(w))
+		clean_w_and_exit(w);
 	if (!matrix_init(&w->px_coord, &w->proj_plan, sizeof(t_pixel)))
-		return (0);
+		clean_w_and_exit(w);
+	if (keycode == KEY_SPACE)
+		if (!vertices_auto_adjust_scale(w, &w->proj_plan,
+			(w->proj_type == PERSP) ? &perspective : &ortho))
+			clean_w_and_exit(w);
 	img_set(w);
 	draw_obj(w);
 	return (1);
