@@ -12,13 +12,17 @@
 
 #include <fdf.h>
 
+/*
+**	if y need to watch leaky leaks
+**	system("leaks fdf");
+*/
+
 void	clean_w_and_exit(t_window *w)
 {
-	ft_putendl("exit called");
+	ft_putendl("exit called\n");
 	matrix_free(&w->obj_vertices);
 	mlx_destroy_image(w->mlx, w->img.id);
 	mlx_destroy_window(w->mlx, w->ptr);
-	system("leaks fdf");
 	exit(0);
 }
 
